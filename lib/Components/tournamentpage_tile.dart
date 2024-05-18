@@ -3,7 +3,28 @@ import 'package:oneup_noobs/Utils/colors.dart';
 
 class TornamentPageTile extends StatelessWidget {
   final VoidCallback ontap;
-  const TornamentPageTile({super.key, required this.ontap});
+  final String matchtitle;
+  final String matchimg;
+  final String map;
+  final String matchtype;
+  final String date;
+  final String time;
+  final String prizepool;
+  final String perkill;
+  final String entryfees;
+
+  const TornamentPageTile(
+      {super.key,
+      required this.ontap,
+      required this.matchimg,
+      required this.map,
+      required this.matchtype,
+      required this.date,
+      required this.time,
+      required this.prizepool,
+      required this.perkill,
+      required this.entryfees,
+      required this.matchtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +61,7 @@ class TornamentPageTile extends StatelessWidget {
                 height: height * 0.2166,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/defaultbg.png'),
+                    image: NetworkImage(matchimg),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -64,7 +85,7 @@ class TornamentPageTile extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'SQUAD',
+                      matchtype,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -82,7 +103,7 @@ class TornamentPageTile extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'ERANGLE',
+                      map,
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -105,7 +126,7 @@ class TornamentPageTile extends StatelessWidget {
                   width: width * 0.0259,
                 ),
                 Text(
-                  "TEST - Match #19",
+                  matchtitle,
                   style: const TextStyle(
                     fontFamily: "Inter",
                     fontSize: 26,
@@ -133,7 +154,7 @@ class TornamentPageTile extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "26/04/2023",
+                      date,
                       style: const TextStyle(
                         fontFamily: "Inter",
                         fontSize: 18,
@@ -143,7 +164,7 @@ class TornamentPageTile extends StatelessWidget {
                       textAlign: TextAlign.right,
                     ),
                     Text(
-                      "11:00am",
+                      time,
                       style: const TextStyle(
                         fontFamily: "Inter",
                         fontSize: 18,
@@ -170,7 +191,7 @@ class TornamentPageTile extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "PRIZE POOL)",
+                      "PRIZE POOL",
                       maxLines: 3,
                       style: const TextStyle(
                         fontFamily: "Inter",
@@ -181,7 +202,7 @@ class TornamentPageTile extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                     Text(
-                      "50(%)",
+                      "${prizepool}(%)",
                       maxLines: 3,
                       style: const TextStyle(
                         fontFamily: "Inter",
@@ -230,7 +251,7 @@ class TornamentPageTile extends StatelessWidget {
                       textAlign: TextAlign.left,
                     ),
                     Text(
-                      "45(%)",
+                      "${perkill}(%)",
                       style: const TextStyle(
                         fontFamily: "Inter",
                         fontSize: 18,

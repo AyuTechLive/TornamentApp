@@ -1,9 +1,18 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:oneup_noobs/Admin/addgames.dart';
+import 'package:oneup_noobs/Admin/addmatches.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Pages/tournament_details.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
+import 'package:oneup_noobs/Splashscreen/splashscreen.dart';
+import 'package:oneup_noobs/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -14,7 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Oneup Noobs',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -34,7 +43,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: TournamentPage(),
     );
   }
 }

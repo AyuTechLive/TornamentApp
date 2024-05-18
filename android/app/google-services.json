@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "784730084385",
+    "project_id": "oneupnoobs-9ee91",
+    "storage_bucket": "oneupnoobs-9ee91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784730084385:android:3dabc1762ab71efc713f60",
+        "android_client_info": {
+          "package_name": "com.example.oneup_noobs"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3fZM3PJ3PYqZEsqbRHK5-6n2Mxp_g5QM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
