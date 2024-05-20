@@ -9,7 +9,8 @@ import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/widget.dart';
 
 class TournamentPage extends StatefulWidget {
-  const TournamentPage({super.key});
+  final String gamename;
+  const TournamentPage({super.key, required this.gamename});
 
   @override
   State<TournamentPage> createState() => _TournamentPageState();
@@ -26,7 +27,8 @@ class _TournamentPageState extends State<TournamentPage> {
         appBar: AppBar(
           backgroundColor: AppColors.bluecolor,
         ),
-        body: Expanded(child: tournamentpage()));
+        body: Column(
+            children: [Expanded(child: tournamentpage(widget.gamename))]));
   }
   // SingleChildScrollView(
   //   child: Column(
@@ -50,14 +52,15 @@ class _TournamentPageState extends State<TournamentPage> {
   // ),
 }
 
-Widget tournamentpage() {
+Widget tournamentpage(String gamename) {
   return StreamBuilder<DatabaseEvent>(
-    stream: DatabaseService().getNodeStream('PUBG'),
+    stream: DatabaseService().getNodeStream(gamename),
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         DataSnapshot dataValues = snapshot.data!.snapshot;
         Map<dynamic, dynamic>? values =
             dataValues.value as Map<dynamic, dynamic>?;
+
         if (values == null) {
           return Center(child: Text('No data available'));
         }
@@ -66,6 +69,11 @@ Widget tournamentpage() {
         return ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index) {
+            int participantCount = 0;
+            if (list[index]['Participants'] != null) {
+              Map<dynamic, dynamic> participants = list[index]['Participants'];
+              participantCount = participants.length;
+            }
             return TornamentPageTile(
               matchtitle: list[index]['Match Title'],
               map: list[index]['Map'],
@@ -75,9 +83,26 @@ Widget tournamentpage() {
               matchtype: list[index]['Match Type'],
               perkill: list[index]['Per Kill'],
               prizepool: list[index]['Prize Pool'],
-              time: list[index]['Prize Pool'],
+              time: list[index]['Time'],
+              maxparticipants: list[index]['Max Participants'],
+              enrolledparticipants: participantCount.toString(),
               ontap: () {
-                nextScreen(context, TournamentDetails());
+                nextScreen(
+                    context,
+                    TournamentDetails(
+                      matchtitle: list[index]['Match Title'],
+                      img: list[index]['Match Img'],
+                      date: list[index]['Date'],
+                      entryfees: list[index]['Entry Fees'],
+                      game: gamename,
+                      map: list[index]['Map'],
+                      matchid: list[index]['id'],
+                      perkill: list[index]['Per Kill'],
+                      prizepool: list[index]['Prize Pool'],
+                      team: list[index]['Match Type'],
+                      time: list[index]['Time'],
+                      roomid: list[index]['Room ID'],
+                    ));
               },
             );
             // ListTile(

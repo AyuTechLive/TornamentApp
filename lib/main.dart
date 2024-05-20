@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:oneup_noobs/Admin/addgames.dart';
 import 'package:oneup_noobs/Admin/addmatches.dart';
+import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
+import 'package:oneup_noobs/Pages/Wallet/paymentgateway.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Pages/tournament_details.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: TournamentPage(),
+      home: HomePage(),
     );
   }
 }

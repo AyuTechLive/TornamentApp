@@ -31,11 +31,14 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
   final prizepoolcontroller = TextEditingController();
   final perkillcontroller = TextEditingController();
   final roomidcontroller = TextEditingController();
+  final maxparticipantscontroller = TextEditingController();
 
   late DatabaseReference databaseRef;
   late FirebaseStorage storage;
   String? selectedCourse;
   List<String> courses = [];
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
 
   @override
   void initState() {
@@ -125,19 +128,31 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
                     hintText: 'Enter Your Entry Fees',
                     border: OutlineInputBorder()),
               ),
-              TextFormField(
-                controller: datecontroller,
-                maxLines: 1,
-                decoration: InputDecoration(
-                  hintText: 'Match Date',
-                  border: OutlineInputBorder(),
+              InkWell(
+                onTap: () => _selectDate(context),
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: datecontroller,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: 'Match Date',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
                 ),
               ),
-              TextFormField(
-                controller: timecontroller,
-                maxLines: 1,
-                decoration: InputDecoration(
-                    hintText: 'Match Time', border: OutlineInputBorder()),
+              InkWell(
+                onTap: () => _selectTime(context),
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: timecontroller,
+                    maxLines: 1,
+                    decoration: InputDecoration(
+                      hintText: 'Match Time',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                ),
               ),
               TextFormField(
                 controller: prizepoolcontroller,
@@ -156,6 +171,12 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
                 maxLines: 1,
                 decoration: InputDecoration(
                     hintText: 'Enter Room Id', border: OutlineInputBorder()),
+              ),
+              TextFormField(
+                controller: maxparticipantscontroller,
+                maxLines: 1,
+                decoration: InputDecoration(
+                    hintText: 'Max Participants', border: OutlineInputBorder()),
               ),
               TextFormField(
                 controller: matchimgcontroller,
@@ -186,7 +207,7 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
                   String idnew =
                       DateTime.now().millisecondsSinceEpoch.toString();
                   databaseRef
-                      .child(id)
+
                       // inreplacement of videos action is used
                       .child(idnew)
                       .set({
@@ -200,8 +221,9 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
                     'Time': timecontroller.text.toString(),
                     'Prize Pool': prizepoolcontroller.text.toString(),
                     'Per Kill': perkillcontroller.text.toString(),
-                    'Participants': {},
                     'Room ID': roomidcontroller.text.toString(),
+                    'Max Participants':
+                        maxparticipantscontroller.text.toString()
                   }).then(
                     (value) {
                       Utils().toastMessage('Post Succesfully Added');
@@ -222,5 +244,33 @@ class _AddpdfAdminState extends State<AddpdfAdmin> {
         ),
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2023),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        datecontroller.text = '${picked.year}-${picked.month}-${picked.day}';
+      });
+    }
+  }
+
+  Future<void> _selectTime(BuildContext context) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+        timecontroller.text = '${picked.hour}:${picked.minute}';
+      });
+    }
   }
 }

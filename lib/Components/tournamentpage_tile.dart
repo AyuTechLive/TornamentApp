@@ -12,6 +12,8 @@ class TornamentPageTile extends StatelessWidget {
   final String prizepool;
   final String perkill;
   final String entryfees;
+  final String maxparticipants;
+  final String enrolledparticipants;
 
   const TornamentPageTile(
       {super.key,
@@ -24,13 +26,17 @@ class TornamentPageTile extends StatelessWidget {
       required this.prizepool,
       required this.perkill,
       required this.entryfees,
-      required this.matchtitle});
+      required this.matchtitle,
+      required this.maxparticipants,
+      required this.enrolledparticipants});
 
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
     final double height = screensize.height;
     final double width = screensize.width;
+    double progress =
+        int.parse(enrolledparticipants) / int.parse(maxparticipants);
     return InkWell(
       onTap: ontap,
       child: Container(
@@ -282,7 +288,7 @@ class TornamentPageTile extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      '10/10',
+                      '${enrolledparticipants}/${maxparticipants}',
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         color: Color(0xFF505155),
@@ -292,10 +298,19 @@ class TornamentPageTile extends StatelessWidget {
                         height: 0,
                       ),
                     ),
-                    Container(
+                    // Container(
+                    //   width: width * 0.379,
+                    //   height: height * 0.005833,
+                    //   color: Color.fromARGB(255, 247, 132, 124),
+                    // )
+                    SizedBox(
                       width: width * 0.379,
-                      height: height * 0.005833,
-                      color: Color.fromARGB(255, 247, 132, 124),
+                      child: LinearProgressIndicator(
+                        value: progress,
+                        backgroundColor: Colors.grey[300],
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                            Color.fromARGB(255, 247, 132, 124)),
+                      ),
                     )
                   ],
                 ),
@@ -309,6 +324,18 @@ class TornamentPageTile extends StatelessWidget {
                     color: Color.fromARGB(255, 247, 132, 124),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.25),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '🪙 50 JOIN',
+                      style: TextStyle(
+                        color: Color(0xFFD9D9D9),
+                        fontSize: 16,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
                     ),
                   ),
                 )

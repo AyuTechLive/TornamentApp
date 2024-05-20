@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:oneup_noobs/Pages/Wallet/components/wallettext.dart';
+import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
+import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
 import 'package:oneup_noobs/Services/database_Services.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
@@ -29,8 +32,71 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: AppColors.bluecolor,
+          title: Row(
+            children: [
+              Text('Tournaments'),
+              Spacer(),
+              InkWell(
+                onTap: () {
+                  nextScreen(context, Wallet());
+                },
+                child: Container(
+                  width: width * 0.300,
+                  height: height * 0.039,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFEFCFDFB),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF96D2EB)),
+                      borderRadius: BorderRadius.circular(6.50),
+                    ),
+                  ),
+                  child: Center(
+                    child: FutureBuilder<String>(
+                      future: _walletbalance(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Wallettext(
+                            title: 'Loading...',
+                          );
+                        } else if (snapshot.hasError) {
+                          return Wallettext(
+                            title: 'Error',
+                          );
+                        } else {
+                          return Text(
+                            '🪙 ${snapshot.data}',
+                            style: TextStyle(
+                              color: Color(0xFF494B4D),
+                              fontSize: 25,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          );
+                          // Wallettext(
+                          //   title: '🪙${snapshot.data}',
+                          // );
+                        }
+                      },
+                    ),
+                    // Text(
+                    //   '🪙 0.00',
+                    //   style: TextStyle(
+                    //     color: Color(0xFF494B4D),
+                    //     fontSize: 25,
+                    //     fontFamily: 'Inter',
+                    //     fontWeight: FontWeight.w400,
+                    //     height: 0,
+                    //   ),
+                    // ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
-        body: Expanded(child: notificationFetcher()));
+        body: Column(children: [Expanded(child: notificationFetcher())]));
   }
 
   Widget notificationFetcher() {
@@ -57,7 +123,12 @@ class _HomePageState extends State<HomePage> {
               // Returning each item for the grid
               return InkWell(
                 onTap: () {
-                  nextScreen(context, TournamentPage());
+                  nextScreen(
+                      context,
+                      TournamentPage(
+                        gamename:
+                            snapshot.data!.docs[index]['GameName'].toString(),
+                      ));
                 },
                 child: Container(
                   width: width * 0.3, // Adjust the width as needed
@@ -86,5 +157,20 @@ class _HomePageState extends State<HomePage> {
         }
       },
     );
+  }
+
+  Future<String> _walletbalance() async {
+    String userEmailsDocumentId = checkUserAuthenticationType();
+    DocumentReference userDocRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmailsDocumentId);
+
+    DocumentSnapshot userDocSnapshot = await userDocRef.get();
+    if (userDocSnapshot.exists) {
+      var currentWalletValue = userDocSnapshot['Wallet'] ?? '0';
+      return currentWalletValue.toString();
+    } else {
+      return '0';
+    }
   }
 }
