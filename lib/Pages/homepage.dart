@@ -1,5 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Pages/Wallet/components/wallettext.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
@@ -16,7 +19,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final fireStore2 =
+      FirebaseFirestore.instance.collection('Banners').snapshots();
+  int _currentIndex = 0;
+  final CarouselController _controller = CarouselController();
   late Stream<QuerySnapshot> games;
+  Color tabcolor1 = AppColors.bluecolor;
+  Color tabcolor2 = Colors.white;
+  Color textcolor1 = Colors.white;
+  Color textcolor2 = Colors.black;
   @override
   void initState() {
     // TODO: implement initState
@@ -34,7 +45,11 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: AppColors.bluecolor,
           title: Row(
             children: [
-              Text('Tournaments'),
+              Text(
+                'One Noobs App',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+              ),
               Spacer(),
               InkWell(
                 onTap: () {
@@ -96,7 +111,163 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-        body: Column(children: [Expanded(child: notificationFetcher())]));
+        body: Column(children: [
+          Column(children: [
+            StreamBuilder<QuerySnapshot>(
+              stream: fireStore2, // Use the stream variable
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator();
+                }
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Text('No banners found.');
+                }
+
+                // Rest of the CarouselSlider code...
+
+                // Now, integrate the _buildCarouselDots method
+                return Column(
+                  children: [
+                    SizedBox(
+                      height: height * 0.02,
+                    ),
+                    CarouselSlider(
+                      carouselController: _controller,
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.95,
+                        aspectRatio: 1.9,
+                        initialPage: 2,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _currentIndex = index;
+                          });
+                        },
+                      ),
+                      items: snapshot.data!.docs.map((document) {
+                        // Map the snapshot documents to carousel items
+                        String imageUrl = document['Course Img Link'];
+                        // Assuming this is how your data is structured
+                        // Build your carousel item with the image URL
+                        String bannerfunction = document['Banner Function'];
+                        String bannertype = document['Banner Type'];
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return InkWell(
+                              onTap: () {
+                                // if (bannertype == 'External Link') {
+                                //   _launchURL(bannerfunction);
+                                // } else if (bannertype ==
+                                //     'Course Function') {
+                                //   fetchData(bannerfunction);
+                                // } else if (bannertype == 'Nothing') {}
+                              },
+                              child: Container(
+                                height: 10,
+                                width: 500,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(5),
+                                  child: Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(), // Make sure to convert the map result to a list
+
+                      // Existing CarouselSlider code...
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   // Call the modified _buildCarouselDots with the length of the snapshot documents
+                    //   children:
+                    //       _buildCarouselDots(snapshot.data!.docs.length),
+                    // ),
+                  ],
+                );
+              },
+            ),
+          ]),
+          SizedBox(
+            height: height * 0.03,
+          ),
+          Container(
+            width: width * 0.922,
+            height: height * 0.05,
+            decoration: BoxDecoration(
+                border:
+                    Border.all(color: const Color.fromARGB(255, 206, 206, 206)),
+                borderRadius: BorderRadius.circular(14.25)),
+            child: Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _tabbar(1);
+                  },
+                  child: Container(
+                    width: width * 0.457,
+                    height: height * 0.05,
+                    decoration: ShapeDecoration(
+                      color: tabcolor1,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: tabcolor1),
+                        borderRadius: BorderRadius.circular(14.25),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'TOURNAMENT',
+                        style: TextStyle(
+                            color: textcolor1,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _tabbar(2);
+                  },
+                  child: Container(
+                    width: width * 0.457,
+                    height: height * 0.05,
+                    decoration: ShapeDecoration(
+                      color: tabcolor2,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: tabcolor2),
+                        borderRadius: BorderRadius.circular(14.25),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'SOLO',
+                        style: TextStyle(
+                            color: textcolor2,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: height * 0.03,
+          ),
+          Expanded(child: notificationFetcher())
+        ]));
   }
 
   Widget notificationFetcher() {
@@ -172,5 +343,22 @@ class _HomePageState extends State<HomePage> {
     } else {
       return '0';
     }
+  }
+
+  void _tabbar(int tabnumber) {
+    setState(() {
+      if (tabnumber == 1) {
+        tabcolor1 = AppColors.bluecolor;
+        tabcolor2 = Colors.white;
+        textcolor1 = Colors.white;
+        textcolor2 = Colors.black;
+      }
+      if (tabnumber == 2) {
+        tabcolor1 = Colors.white;
+        tabcolor2 = AppColors.bluecolor;
+        textcolor1 = Colors.black;
+        textcolor2 = Colors.white;
+      }
+    });
   }
 }

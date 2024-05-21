@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
+import 'package:oneup_noobs/Pages/joiningmatch.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
+import 'package:oneup_noobs/Utils/widget.dart';
 import 'package:oneup_noobs/minorcomponents/tournamentdetails_container.dart';
 
 class TournamentDetails extends StatefulWidget {
@@ -258,7 +260,12 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                   : isMatchJoined
                       ? null
                       : () {
-                          _updateWallet(widget.matchid);
+                          nextScreen(
+                              context,
+                              JoiningMatch(
+                                  entryfees: widget.entryfees,
+                                  game: widget.game,
+                                  matchid: widget.matchid));
                         },
               child: Container(
                   width: width,
