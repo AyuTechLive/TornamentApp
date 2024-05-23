@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:oneup_noobs/Admin/addmatches.dart';
+import 'package:oneup_noobs/Pages/Account/accountpage.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
@@ -61,7 +63,14 @@ class _MainPageState extends State<MainPage> {
               _currentIndex = index;
             });
           },
-          children: [HomePage(), TournamentPage(gamename: 'gamename')],
+          children: [
+            HomePage(),
+            // TournamentPage(
+            //   gamename: 'gamename',
+            //   walletbalance: "100",
+            // )
+            AccountPage()
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: AppColors.bluecolor,

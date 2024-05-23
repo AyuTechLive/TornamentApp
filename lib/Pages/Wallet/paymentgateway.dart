@@ -74,64 +74,75 @@ class _PaymentgatwayState extends State<Paymentgatway> {
     final double width = screensize.width;
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
+        title: Text(
+          'Add Money',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: AppColors.bluecolor,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          TextFormField(
-            controller: amountcontrolller,
-            maxLines: 1,
-            decoration: InputDecoration(
-                hintText: 'Enter The Amount',
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10))),
-          ),
-          SizedBox(
-            height: height * 0.02,
-          ),
-          InkWell(
-            onTap: () {
-              var options = {
-                'key': 'rzp_live_Jn3dR4S4ULXrkH',
-                'amount': int.parse(amountcontrolller.text.toString()) *
-                    100, //in the smallest currency sub-unit.
-                'name': 'demo', // Generate order_id using Orders API
-                'description': 'demo',
-                'timeout': 240, // in seconds
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.08),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: height * 0.04,
+            ),
+            TextFormField(
+              controller: amountcontrolller,
+              maxLines: 1,
+              decoration: InputDecoration(
+                  hintText: 'Enter The Amount',
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+            ),
+            SizedBox(
+              height: height * 0.1,
+            ),
+            InkWell(
+              onTap: () {
+                var options = {
+                  'key': 'rzp_live_Jn3dR4S4ULXrkH',
+                  'amount': int.parse(amountcontrolller.text.toString()) *
+                      100, //in the smallest currency sub-unit.
+                  'name': 'demo', // Generate order_id using Orders API
+                  'description': 'demo',
+                  'timeout': 240, // in seconds
 
-                // 'prefill': {
-                //   'contact': '8102043143',
-                //   'email': 'examtymapp@gmail.com'
-                // }
-              };
-              _razorpay.open(options);
-            },
-            child: Container(
-              width: width * 0.758,
-              height: height * 0.0697,
-              decoration: ShapeDecoration(
-                color: Color(0xFF5DCDB1),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(width: 1, color: Color(0xFF8AC8B8)),
-                  borderRadius: BorderRadius.circular(6),
+                  // 'prefill': {
+                  //   'contact': '8102043143',
+                  //   'email': 'examtymapp@gmail.com'
+                  // }
+                };
+                _razorpay.open(options);
+              },
+              child: Container(
+                width: width * 0.758,
+                height: height * 0.0697,
+                decoration: ShapeDecoration(
+                  color: Color(0xFF5DCDB1),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: Color(0xFF8AC8B8)),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  'ADD MONEY',
-                  style: TextStyle(
-                    color: Color(0xFFD5FAF5),
-                    fontSize: 21,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
+                child: Center(
+                  child: Text(
+                    'ADD MONEY',
+                    style: TextStyle(
+                      color: Color(0xFFD5FAF5),
+                      fontSize: 21,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

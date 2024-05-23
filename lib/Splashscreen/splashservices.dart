@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:oneup_noobs/Auth/login.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
+import 'package:oneup_noobs/Pages/mainpage.dart';
 
 class SplashServices {
   void isLogin(BuildContext context) async {
@@ -19,7 +20,7 @@ class SplashServices {
         const Duration(seconds: 3),
         () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage()),
+          MaterialPageRoute(builder: (context) => MainPage()),
         ),
       );
     } else {

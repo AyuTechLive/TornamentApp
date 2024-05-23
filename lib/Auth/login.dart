@@ -7,6 +7,8 @@ import 'package:oneup_noobs/Auth/forgotpassword.dart';
 import 'package:oneup_noobs/Auth/loginwithphoneno.dart';
 import 'package:oneup_noobs/Auth/signup.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
+import 'package:oneup_noobs/Pages/mainpage.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/utils.dart';
 import 'package:oneup_noobs/minorcomponents/roundbutton.dart';
 
@@ -73,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => HomePage(),
+              builder: (context) => MainPage(),
             ));
       },
     ).onError(
@@ -142,19 +144,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Radius.circular(20),
                                 ),
                                 borderSide: BorderSide(
-                                    color: Color(0xFFF17306), width: 3)),
+                                    color: AppColors.bluecolor, width: 3)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
-                                  color: Color(0xFFF17306), width: 3),
+                                  color: AppColors.bluecolor, width: 3),
                             ),
                             //helperText: 'Enter your email',
                             prefixIcon: Icon(
                               Icons.alternate_email,
-                              color: Color(0xFFF17306),
+                              color: AppColors.bluecolor,
                             ),
-                            iconColor: Color(0xFFF17306)),
+                            iconColor: AppColors.bluecolor),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Enter Email';
@@ -190,10 +192,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(20),
                                 borderSide: BorderSide(
-                                    color: Color(0xFFF17306), width: 3)),
+                                    color: AppColors.bluecolor, width: 3)),
                             prefixIcon: Icon(
                               Icons.lock_clock_outlined,
-                              color: Color(0xFFF17306),
+                              color: AppColors.bluecolor,
                             ),
                             suffixIcon: IconButton(
                                 onPressed: () {
@@ -206,9 +208,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ? (Icons.visibility)
                                       : Icons.visibility_off,
                                   color: _isPasswordVisible
-                                      ? Color(
-                                          0xFFF17306) // Color when password is visible
-                                      : Color(0xFFF17306),
+                                      ? AppColors
+                                          .bluecolor // Color when password is visible
+                                      : AppColors.bluecolor,
                                 ))),
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -231,9 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 'Forgot Password?',
                                 style: TextStyle(
-                                    color: Color(
-                                      0xFFF17306,
-                                    ),
+                                    color: AppColors.bluecolor,
                                     fontWeight: FontWeight.w500),
                               ))
                         ],
@@ -269,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     child: Text(
                       'Sign Up',
-                      style: TextStyle(color: Color(0xFFF17306)),
+                      style: TextStyle(color: AppColors.bluecolor),
                     ),
                   ),
                 ],

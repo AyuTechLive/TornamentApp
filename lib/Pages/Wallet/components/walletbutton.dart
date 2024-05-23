@@ -32,10 +32,10 @@ class _WalletbuttonState extends State<Walletbutton> {
           child: Text(
             widget.title,
             style: TextStyle(
-              color: Color(0xFFFBE3E0),
-              fontSize: 20,
+              color: Colors.white,
+              fontSize: 16,
               fontFamily: 'Inter',
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w600,
               height: 0,
             ),
           ),

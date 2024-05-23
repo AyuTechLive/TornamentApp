@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
+import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
+import 'package:oneup_noobs/Utils/utils.dart';
 
 class JoiningMatch extends StatefulWidget {
   final String entryfees;
@@ -22,6 +24,9 @@ class JoiningMatch extends StatefulWidget {
 
 class _JoiningMatchState extends State<JoiningMatch> {
   late DatabaseReference databaseRef;
+  final _nameController = TextEditingController();
+  String _userName = 'Add Info';
+  bool _showNameField = false;
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -29,17 +34,28 @@ class _JoiningMatchState extends State<JoiningMatch> {
     final double width = screensize.width;
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
+        automaticallyImplyLeading: true,
+        title: Text(
+          'Joining Match',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: AppColors.bluecolor,
       ),
       body: Column(
         children: [
+          SizedBox(
+            height: height * 0.05,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Spacer(),
               Image.asset(
                 'assets/wallet.png',
                 scale: 1.5,
               ),
+              Spacer(),
               Column(
                 children: [
                   Row(mainAxisAlignment: MainAxisAlignment.start, children: [
@@ -56,7 +72,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                             "Your Current Balance: 🪙${snapshot.data}",
                             style: const TextStyle(
                               fontFamily: "Inter",
-                              fontSize: 18,
+                              fontSize: 16,
                               fontWeight: FontWeight.w400,
                               color: Color(0xff595a5d),
                               height: 21 / 22,
@@ -82,7 +98,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     // ),
                   ]),
                   SizedBox(
-                    height: height * 0.01,
+                    height: height * 0.03,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -91,7 +107,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                         "Match Entry Fee Per Person :🪙${widget.entryfees}",
                         style: const TextStyle(
                           fontFamily: "Inter",
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.w400,
                           color: Color(0xff595b5d),
                           height: 23 / 20,
@@ -101,13 +117,13 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     ],
                   ),
                   SizedBox(
-                    height: height * 0.01,
+                    height: height * 0.03,
                   ),
                   Text(
                     "Total Payable Amount : 🪙10",
                     style: const TextStyle(
                       fontFamily: "Inter",
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xff5a5c5e),
                       height: 23 / 20,
@@ -115,27 +131,58 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     textAlign: TextAlign.left,
                   )
                 ],
-              )
+              ),
+              Spacer(),
             ],
           ),
-          // Container(
-          //   child: Column(
-          //     children: [
-          //       Container(
-          //         width: width * 0.94,
-          //         height: height * 0.0584795321637427,
-          //         decoration: ShapeDecoration(
-          //           color: Color(0xFF5ECDB1),
-          //           shape: RoundedRectangleBorder(
-          //             side: BorderSide(width: 1, color: Color(0xFF73C8B1)),
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
           SizedBox(
-            height: height * 0.3,
+            height: height * 0.05,
+          ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                  width: width * 0.94,
+                  height: height * 0.0584795321637427,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF73C8B1)),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Spacer(),
+                      Text(widget.matchid),
+                      Spacer(),
+                      InkWell(
+                        onTap: () {
+                          _showNameDialog(context);
+                        },
+                        child: Container(
+                          width: width * 0.177,
+                          height: height * 0.035,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.bluecolor),
+                              color: AppColors.bluecolor,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              _userName,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: height * 0.15,
           ),
           Row(
             children: [
@@ -154,7 +201,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                   child: Text(
                     'CANCEL',
                     style: TextStyle(
-                      color: Color(0xFFD1F9F4),
+                      color: Colors.white,
                       fontSize: 21,
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w400,
@@ -166,7 +213,18 @@ class _JoiningMatchState extends State<JoiningMatch> {
               Spacer(),
               InkWell(
                 onTap: () {
-                  _updateWallet(widget.matchid);
+                  if (_userName == 'Add Info') {
+                    // Show error if the user hasn't entered a name
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please enter your name'),
+                      ),
+                    );
+                  } else {
+                    Utils().toastMessage(
+                        'Please Wait We are Processing Your Request');
+                    _updateWallet(widget.matchid);
+                  }
                 },
                 child: Container(
                   width: width * 0.38,
@@ -182,7 +240,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     child: Text(
                       'JOIN',
                       style: TextStyle(
-                        color: Color(0xFFD1F9F4),
+                        color: Colors.white,
                         fontSize: 21,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w400,
@@ -236,11 +294,21 @@ class _JoiningMatchState extends State<JoiningMatch> {
               'matches': FieldValue.arrayUnion([matchid])
             }).then((value) {
               databaseRef = FirebaseDatabase.instance.ref(widget.game);
-              databaseRef
-                  .child(widget.matchid)
-                  .child('Participants')
-                  .update({userDocSnapshot['UID']: userDocSnapshot['Email']});
-              print('Match ID added successfully');
+              databaseRef.child(widget.matchid).child('Participants').update(
+                  {userDocSnapshot['UID']: userDocSnapshot['Email']}).then(
+                (value) {
+                  setState(() {
+                    Utils().toastMessage(
+                        'You Had Joined Match Sucessfully.Be on time at the time of Match Room ID will be disclosed');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ));
+                  });
+                  ;
+                },
+              );
             });
           },
         );
@@ -253,5 +321,44 @@ class _JoiningMatchState extends State<JoiningMatch> {
         );
       }
     }
+  }
+
+  void _showNameDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Enter Your Name'),
+          content: TextFormField(
+            controller: _nameController,
+            decoration: InputDecoration(
+              hintText: 'Enter your name',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                _nameController.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Save'),
+              onPressed: () {
+                String enteredName = _nameController.text.trim();
+                if (enteredName.isNotEmpty) {
+                  setState(() {
+                    _userName = enteredName;
+                  });
+                }
+                _nameController.clear();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

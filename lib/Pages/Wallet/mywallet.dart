@@ -24,7 +24,12 @@ class _WalletState extends State<Wallet> {
     final double width = screensize.width;
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: AppColors.bluecolor,
+        title: Text(
+          'My Wallet',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,10 +56,10 @@ class _WalletState extends State<Wallet> {
                       child: Text(
                         'TOTAL BALANCE',
                         style: TextStyle(
-                          color: Color(0xFFD3FAF5),
-                          fontSize: 27,
+                          color: Colors.white,
+                          fontSize: 16,
                           fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w800,
                           height: 0,
                         ),
                       ),
@@ -74,33 +79,49 @@ class _WalletState extends State<Wallet> {
                             Spacer(),
                             Column(
                               children: [
-                                FutureBuilder<String>(
-                                  future: _walletbalance(),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Wallettext(
-                                        title: 'Loading...',
-                                      );
-                                    } else if (snapshot.hasError) {
-                                      return Wallettext(
-                                        title: 'Error',
-                                      );
-                                    } else {
-                                      return Wallettext(
-                                        title: '🪙${snapshot.data}',
-                                      );
-                                    }
-                                  },
+                                Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        'assets/coin.png',
+                                        scale: 20,
+                                      ),
+                                      FutureBuilder<String>(
+                                        future: _walletbalance(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return Wallettext(
+                                              title: 'Loading...',
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            return Wallettext(
+                                              title: 'Error',
+                                            );
+                                          } else {
+                                            return Wallettext(
+                                              title: '${snapshot.data}',
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    ]),
+                                SizedBox(
+                                  height: height * 0.01,
                                 ),
                                 Wallettext(
-                                  title: 'Win money : 🪙0.00',
+                                  title: 'Win money : 0.00',
+                                ),
+                                SizedBox(
+                                  height: height * 0.015,
                                 ),
                                 Wallettext(
-                                  title: 'Join money : 🪙0.00',
+                                  title: 'Join money : 0.00',
                                 )
                               ],
                             ),
+                            Spacer(),
+                            Spacer(),
                             Spacer(),
                             Column(
                               children: [
@@ -129,6 +150,136 @@ class _WalletState extends State<Wallet> {
               ),
             ),
           ),
+          SizedBox(
+            height: height * 0.03,
+          ),
+          Row(children: [
+            Spacer(),
+            Container(
+              // height: height * 0.198,
+              width: width * 0.4625,
+              child: Column(
+                children: [
+                  Container(
+                    width: width * 0.9625,
+                    height: height * 0.0437,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF5FCCB1),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFF75C7B3)),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Earnings',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w800,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.9625,
+                    height: height * 0.07,
+                    color: Color(0xffADE5D7),
+                    child: Center(
+                      child: Column(children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/coin.png',
+                              scale: 20,
+                            ),
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                color: Color(0xFF344F4C),
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w800,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ]),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Spacer(),
+            Container(
+              // height: height * 0.198,
+              width: width * 0.4625,
+              child: Column(
+                children: [
+                  Container(
+                    width: width * 0.9625,
+                    height: height * 0.0437,
+                    decoration: ShapeDecoration(
+                      color: Color(0xFF5FCCB1),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(width: 1, color: Color(0xFF75C7B3)),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Payouts',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w800,
+                          height: 0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: width * 0.9625,
+                    height: height * 0.07,
+                    color: Color(0xffADE5D7),
+                    child: Center(
+                      child: Column(children: [
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/coin.png',
+                              scale: 20,
+                            ),
+                            Text(
+                              '0',
+                              style: TextStyle(
+                                color: Color(0xFF344F4C),
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w800,
+                                height: 0,
+                              ),
+                            )
+                          ],
+                        ),
+                      ]),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Spacer()
+          ]),
         ],
       ),
     );

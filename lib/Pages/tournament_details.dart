@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,6 +8,7 @@ import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
 import 'package:oneup_noobs/Pages/joiningmatch.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
+import 'package:oneup_noobs/Utils/joinedmembertile.dart';
 import 'package:oneup_noobs/Utils/widget.dart';
 import 'package:oneup_noobs/minorcomponents/tournamentdetails_container.dart';
 
@@ -25,6 +25,7 @@ class TournamentDetails extends StatefulWidget {
   final String img;
   final String matchtitle;
   final String roomid;
+  final List partcipantlist;
 
   const TournamentDetails(
       {super.key,
@@ -39,7 +40,8 @@ class TournamentDetails extends StatefulWidget {
       required this.game,
       required this.img,
       required this.matchtitle,
-      required this.roomid});
+      required this.roomid,
+      required this.partcipantlist});
 
   @override
   State<TournamentDetails> createState() => _TournamentDetailsState();
@@ -49,8 +51,11 @@ class _TournamentDetailsState extends State<TournamentDetails> {
   late DatabaseReference databaseRef;
   bool isMatchJoined = false;
   bool isTournamentStarted = false;
+  bool showParticipants = false;
   late Timer _countdownTimer;
   Duration _remainingTime = Duration.zero;
+  Color textcolor1 = Colors.white;
+  Color textcolor2 = Colors.black;
   @override
   void initState() {
     super.initState();
@@ -66,193 +71,241 @@ class _TournamentDetailsState extends State<TournamentDetails> {
     return Scaffold(
       backgroundColor: AppColors.greycolor,
       appBar: AppBar(
+        foregroundColor: Colors.white,
+        title: Text(
+          widget.matchtitle,
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
         backgroundColor: AppColors.bluecolor,
       ),
       body: Column(
         children: [
-          Center(
-            child: Container(
-              width: width * 0.953,
-              height: height * 0.229,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.img),
-                  fit: BoxFit.fill,
+          SizedBox(
+            height: height * 0.015,
+          ),
+          Column(children: [
+            Center(
+              child: Container(
+                width: width * 0.953,
+                height: height * 0.229,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(widget.img),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
-          ),
+            Container(
+              width: width * 0.953,
+              height: height * 0.05,
+              color: AppColors.bluecolor,
+              child: Row(
+                children: [
+                  Spacer(),
+                  TextButton(
+                      onPressed: () {
+                        toggleParticipants(1);
+                      },
+                      child: Text(
+                        'DISCRIPTION',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: textcolor1),
+                      )),
+                  Spacer(),
+                  TextButton(
+                      onPressed: () {
+                        toggleParticipants(2);
+                      },
+                      child: Text(
+                        'JOINED MEMBERS',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: textcolor2,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      )),
+                  Spacer()
+                ],
+              ),
+            )
+          ]),
           SizedBox(
             height: height * 0.015,
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Row(children: [
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    Text(
-                      widget.matchtitle,
-                      style: TextStyle(
-                        color: AppColors.greencolor,
-                        fontSize: 23,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width * 0.04,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Team',
-                        value: widget.team,
-                      ),
-                      SizedBox(
-                        width: width * 0.02,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Entry Fee 🪙',
-                        value: widget.entryfees,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width * 0.04,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Match Type',
-                        value: 'PAID',
-                      ),
-                      SizedBox(
-                        width: width * 0.02,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Map',
-                        value: widget.map,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width * 0.04,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Match Schedule',
-                        value: '${widget.date} ${widget.time}',
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(children: [
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    Text(
-                      'Price Details',
-                      style: TextStyle(
-                        color: AppColors.greencolor,
-                        fontSize: 23,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width * 0.04,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'WinningPrize',
-                        value: widget.prizepool,
-                      ),
-                      SizedBox(
-                        width: width * 0.02,
-                      ),
-                      TournamentDetailsContainer(
-                        title: 'Per Kill',
-                        value: widget.perkill,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(children: [
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    Text(
-                      'About This Match',
-                      style: TextStyle(
-                        color: AppColors.greencolor,
-                        fontSize: 23,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w500,
-                        height: 0,
-                      ),
-                    ),
-                  ]),
-                  SizedBox(
-                    height: height * 0.015,
-                  ),
-                  Row(children: [
-                    SizedBox(
-                      width: width * 0.04,
-                    ),
-                    SizedBox(
-                      width: width * 0.9,
-                      child: Text(
-                        isTournamentStarted
-                            ? 'Room ID: ${widget.roomid}'
-                            : 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen bookIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                        style: TextStyle(
-                          color: Color(0xFF545657),
-                          fontSize: 16,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w500,
-                          height: 0,
+            child: showParticipants
+                ? ListView.separated(
+                    separatorBuilder: (context, index) {
+                      return Divider();
+                    },
+                    itemCount: widget.partcipantlist.length,
+                    itemBuilder: (context, index) {
+                      return JoinedMemberTile(
+                        counting: (index + 1).toString(),
+                        name: widget.partcipantlist[index].toString(),
+                      );
+                    },
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Row(children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Text(
+                            widget.matchtitle,
+                            style: TextStyle(
+                              color: AppColors.greencolor,
+                              fontSize: 18,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ]),
+                        SizedBox(
+                          height: height * 0.015,
                         ),
-                      ),
-                      //  Text(
-                      //   'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen bookIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                      //   style: TextStyle(
-                      //     color: Color(0xFF545657),
-                      //     fontSize: 16,
-                      //     fontFamily: 'Inter',
-                      //     fontWeight: FontWeight.w500,
-                      //     height: 0,
-                      //   ),
-                      // ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Team',
+                              value: widget.team,
+                            ),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Entry Fee 🪙',
+                              value: widget.entryfees,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Match Type',
+                              value: 'PAID',
+                            ),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Map',
+                              value: widget.map,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Match Schedule',
+                              value: '${widget.date} ${widget.time}',
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.025,
+                        ),
+                        Row(children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Text(
+                            'Price Details',
+                            style: TextStyle(
+                              color: AppColors.greencolor,
+                              fontSize: 18,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ]),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: width * 0.04,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'WinningPrize',
+                              value: widget.prizepool,
+                            ),
+                            SizedBox(
+                              width: width * 0.02,
+                            ),
+                            TournamentDetailsContainer(
+                              title: 'Per Kill',
+                              value: widget.perkill,
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: height * 0.025,
+                        ),
+                        Row(children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          Text(
+                            'About This Match',
+                            style: TextStyle(
+                              color: AppColors.greencolor,
+                              fontSize: 18,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w600,
+                              height: 0,
+                            ),
+                          ),
+                        ]),
+                        SizedBox(
+                          height: height * 0.015,
+                        ),
+                        Row(children: [
+                          SizedBox(
+                            width: width * 0.04,
+                          ),
+                          SizedBox(
+                            width: width * 0.9,
+                            child: Text(
+                              isTournamentStarted && isMatchJoined
+                                  ? 'Room ID: ${widget.roomid}'
+                                  : 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen bookIt was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
+                              style: TextStyle(
+                                color: Color(0xFF545657),
+                                fontSize: 16,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ],
                     ),
-                  ]),
-                ],
-              ),
-            ),
+                  ),
           ),
           InkWell(
               onTap: isTournamentStarted
@@ -404,22 +457,19 @@ class _TournamentDetailsState extends State<TournamentDetails> {
       ),
     );
   }
-}
-  //  String _formatDuration(Duration duration) {
-  //   String twoDigits(int n) => n.toString().padLeft(2, '0');
-  //   final hours = twoDigits(duration.inHours);
-  //   final minutes = twoDigits(duration.inMinutes.remainder(60));
-  //   final seconds = twoDigits(duration.inSeconds.remainder(60));
-  //   return '${hours}:${minutes}:${seconds}';
-  // }
-  //   Widget _buildCountdownTimer() {
-  //   String countdownText = _formatDuration(_remainingTime);
-  //   return Text(
-  //     countdownText,
-  //     style: TextStyle(
-  //       color: Colors.white,
-  //       fontWeight: FontWeight.bold,
-  //     ),
-  //   );
-  // }
 
+  void toggleParticipants(int tabid) {
+    setState(() {
+      if (tabid == 1) {
+        textcolor1 = Colors.white;
+        textcolor2 = Colors.black;
+        showParticipants = !showParticipants;
+      }
+      if (tabid == 2) {
+        textcolor1 = Colors.black;
+        textcolor2 = Colors.white;
+        showParticipants = !showParticipants;
+      }
+    });
+  }
+}

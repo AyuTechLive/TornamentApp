@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:oneup_noobs/Auth/login.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
+import 'package:oneup_noobs/Pages/mainpage.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/utils.dart';
 import 'package:oneup_noobs/minorcomponents/roundbutton.dart';
 
@@ -92,17 +94,17 @@ class _SignUpNewState extends State<SignUpNew> {
                                   Radius.circular(20),
                                 ),
                                 borderSide: BorderSide(
-                                    color: Color(0xFFF17306), width: 3)),
+                                    color: AppColors.bluecolor, width: 3)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
-                                  color: Color(0xFFF17306), width: 3),
+                                  color: AppColors.bluecolor, width: 3),
                             ),
                             //helperText: 'Enter your email',
                             prefixIcon: Icon(
                               Icons.perm_identity,
-                              color: Color(0xFFF17306),
+                              color: AppColors.bluecolor,
                             )),
                       ),
                       SizedBox(
@@ -131,17 +133,17 @@ class _SignUpNewState extends State<SignUpNew> {
                                   Radius.circular(20),
                                 ),
                                 borderSide: BorderSide(
-                                    color: Color(0xFFF17306), width: 3)),
+                                    color: AppColors.bluecolor, width: 3)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
-                                  color: Color(0xFFF17306), width: 3),
+                                  color: AppColors.bluecolor, width: 3),
                             ),
                             //helperText: 'Enter your email',
                             prefixIcon: Icon(
                               Icons.alternate_email,
-                              color: Color(0xFFF17306),
+                              color: AppColors.bluecolor,
                             )),
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -177,17 +179,17 @@ class _SignUpNewState extends State<SignUpNew> {
                                   Radius.circular(20),
                                 ),
                                 borderSide: BorderSide(
-                                    color: Color(0xFFF17306), width: 3)),
+                                    color: AppColors.bluecolor, width: 3)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20)),
                               borderSide: BorderSide(
-                                  color: Color(0xFFF17306), width: 3),
+                                  color: AppColors.bluecolor, width: 3),
                             ),
                             // helperText: 'Enter your password',
                             prefixIcon: Icon(
                               Icons.lock_clock_outlined,
-                              color: Color(0xFFF17306),
+                              color: AppColors.bluecolor,
                             ),
                             suffixIcon: IconButton(
                                 onPressed: () {
@@ -200,9 +202,9 @@ class _SignUpNewState extends State<SignUpNew> {
                                       ? (Icons.visibility)
                                       : Icons.visibility_off,
                                   color: _isPasswordVisible
-                                      ? Color(
-                                          0xFFF17306) // Color when password is visible
-                                      : Color(0xFFF17306),
+                                      ? AppColors
+                                          .bluecolor // Color when password is visible
+                                      : AppColors.bluecolor,
                                 ))),
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -239,7 +241,8 @@ class _SignUpNewState extends State<SignUpNew> {
                               DateTime.now().microsecondsSinceEpoch.toString(),
                           'My Courses': [],
                           'DOJ': formattedDate,
-                          'Name': namecontroller.text.toString()
+                          'Name': namecontroller.text.toString(),
+                          'Wallet': "0",
                         }).then(
                           (value) {
                             setState(() {
@@ -257,7 +260,7 @@ class _SignUpNewState extends State<SignUpNew> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => HomePage(),
+                                        builder: (context) => MainPage(),
                                       ));
                                 },
                               ).onError(
@@ -295,7 +298,7 @@ class _SignUpNewState extends State<SignUpNew> {
                       },
                       child: Text(
                         'Login',
-                        style: TextStyle(color: Color(0xFFF17306)),
+                        style: TextStyle(color: AppColors.bluecolor),
                       ))
                 ],
               )

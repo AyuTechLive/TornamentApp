@@ -14,7 +14,7 @@ class TournamentDetailsContainer extends StatelessWidget {
     return Container(
       // alignment: Alignment.center,
       //  width: 171,
-      height: height * 0.045,
+      height: height * 0.040,
       decoration: ShapeDecoration(
         color: Color(0xFFFDFDFD),
         shadows: [
@@ -42,9 +42,9 @@ class TournamentDetailsContainer extends StatelessWidget {
           '$title : $value',
           style: TextStyle(
             color: Color(0xFF545657),
-            fontSize: 19,
+            fontSize: 14,
             fontFamily: 'Inter',
-            fontWeight: FontWeight.w400,
+            fontWeight: FontWeight.w500,
             // height: 0,
           ),
         ),

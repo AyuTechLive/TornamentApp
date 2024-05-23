@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 
 class Roundbuttonnew extends StatelessWidget {
   final String title;
@@ -21,7 +22,7 @@ class Roundbuttonnew extends StatelessWidget {
         width: width * 0.577,
         height: height * 0.07625,
         decoration: ShapeDecoration(
-          color: Color(0xFFF17306),
+          color: AppColors.bluecolor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30),
           ),

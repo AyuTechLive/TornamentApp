@@ -42,13 +42,14 @@ class _HomePageState extends State<HomePage> {
     final double width = screensize.width;
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: AppColors.bluecolor,
           title: Row(
             children: [
               Text(
                 'One Noobs App',
                 style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
               ),
               Spacer(),
               InkWell(
@@ -66,35 +67,57 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   child: Center(
-                    child: FutureBuilder<String>(
-                      future: _walletbalance(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Wallettext(
-                            title: 'Loading...',
-                          );
-                        } else if (snapshot.hasError) {
-                          return Wallettext(
-                            title: 'Error',
-                          );
-                        } else {
-                          return Text(
-                            '🪙 ${snapshot.data}',
-                            style: TextStyle(
-                              color: Color(0xFF494B4D),
-                              fontSize: 25,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: 0,
-                            ),
-                          );
-                          // Wallettext(
-                          //   title: '🪙${snapshot.data}',
-                          // );
-                        }
-                      },
-                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Spacer(),
+                          Image.asset(
+                            'assets/coin.png',
+                            scale: 20,
+                          ),
+                          Spacer(),
+                          FutureBuilder<String>(
+                            future: _walletbalance(),
+                            builder: (context, snapshot) {
+                              return Text(
+                                '${snapshot.data}',
+                                style: TextStyle(
+                                  color: Color(0xFF494B4D),
+                                  fontSize: 20,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w900,
+                                  height: 0,
+                                ),
+                              );
+
+                              // if (snapshot.connectionState ==
+                              //     ConnectionState.waiting) {
+                              //   return Wallettext(
+                              //     title: 'Loading...',
+                              //   );
+                              // } else if (snapshot.hasError) {
+                              //   return Wallettext(
+                              //     title: 'Error',
+                              //   );
+                              // } else {
+                              //   return Text(
+                              //     '🪙 ${snapshot.data}',
+                              //     style: TextStyle(
+                              //       color: Color(0xFF494B4D),
+                              //       fontSize: 25,
+                              //       fontFamily: 'Inter',
+                              //       fontWeight: FontWeight.w400,
+                              //       height: 0,
+                              //     ),
+                              //   );
+                              //   // Wallettext(
+                              //   //   title: '🪙${snapshot.data}',
+                              //   // );
+                              // }
+                            },
+                          ),
+                          Spacer(),
+                        ]),
                     // Text(
                     //   '🪙 0.00',
                     //   style: TextStyle(
@@ -140,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                         autoPlay: true,
                         enlargeCenterPage: true,
                         viewportFraction: 0.95,
-                        aspectRatio: 1.9,
+                        aspectRatio: 2.2,
                         initialPage: 2,
                         onPageChanged: (index, reason) {
                           setState(() {
@@ -207,7 +230,7 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
                 border:
                     Border.all(color: const Color.fromARGB(255, 206, 206, 206)),
-                borderRadius: BorderRadius.circular(14.25)),
+                borderRadius: BorderRadius.circular(10)),
             child: Row(
               children: [
                 GestureDetector(
@@ -221,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                       color: tabcolor1,
                       shape: RoundedRectangleBorder(
                         side: BorderSide(width: 1, color: tabcolor1),
-                        borderRadius: BorderRadius.circular(14.25),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: Center(
@@ -229,8 +252,8 @@ class _HomePageState extends State<HomePage> {
                         'TOURNAMENT',
                         style: TextStyle(
                             color: textcolor1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
                       ),
                     ),
                   ),
@@ -246,7 +269,7 @@ class _HomePageState extends State<HomePage> {
                       color: tabcolor2,
                       shape: RoundedRectangleBorder(
                         side: BorderSide(width: 1, color: tabcolor2),
-                        borderRadius: BorderRadius.circular(14.25),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     child: Center(
@@ -254,8 +277,8 @@ class _HomePageState extends State<HomePage> {
                         'SOLO',
                         style: TextStyle(
                             color: textcolor2,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
                       ),
                     ),
                   ),
@@ -274,6 +297,21 @@ class _HomePageState extends State<HomePage> {
     final Size screensize = MediaQuery.of(context).size;
     final double height = screensize.height;
     final double width = screensize.width;
+    if (tabcolor2 == AppColors.bluecolor) {
+      // Return a blank GridView
+      // return GridView.builder(
+      //   padding: EdgeInsets.all(width * 0.04),
+      //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      //     crossAxisCount: 3,
+      //     crossAxisSpacing: width * 0.03,
+      //     mainAxisSpacing: height * 0.015,
+      //   ),
+      //   itemCount: 0, // Set itemCount to 0 to show a blank GridView
+      //   itemBuilder: (context, index) {
+      return Container(
+        child: Text('Coming soon...'),
+      ); // Return an empty Container
+    }
     return StreamBuilder(
       stream: games,
       builder: (context, AsyncSnapshot snapshot) {
@@ -282,7 +320,7 @@ class _HomePageState extends State<HomePage> {
           // Assuming 'id' is the timestamp
 
           return GridView.builder(
-            padding: const EdgeInsets.all(4.0),
+            padding: EdgeInsets.all(width * 0.04),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3, // Number of items per row
               crossAxisSpacing:
@@ -293,10 +331,12 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               // Returning each item for the grid
               return InkWell(
-                onTap: () {
+                onTap: () async {
+                  String walletBalance = await _walletbalance();
                   nextScreen(
                       context,
                       TournamentPage(
+                        walletbalance: walletBalance,
                         gamename:
                             snapshot.data!.docs[index]['GameName'].toString(),
                       ));

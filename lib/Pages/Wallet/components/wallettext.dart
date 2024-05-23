@@ -16,9 +16,9 @@ class _WallettextState extends State<Wallettext> {
         widget.title,
         style: TextStyle(
           color: Color(0xFF344F4C),
-          fontSize: 23,
+          fontSize: 16,
           fontFamily: 'Inter',
-          fontWeight: FontWeight.w400,
+          fontWeight: FontWeight.w800,
           height: 0,
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:oneup_noobs/Splashscreen/splashservices.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final double height = screensize.width;
     final double widht = screensize.height;
     return Scaffold(
-        backgroundColor: Color(0xFFF17306),
+        backgroundColor: Color(0xff82d4ec),
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Center(
             child: Container(
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   BoxDecoration(borderRadius: BorderRadius.circular(30)),
               child: ClipRRect(
                   child: Image.asset(
-                'assets/icons/applogo1.png',
+                'assets/mainlogo.png',
                 scale: 1.0,
                 fit: BoxFit.fill,
               )),
@@ -51,26 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
             //       )),
             // )
           ),
-          Text(
-            'ATULYA RAS',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 40,
-              fontFamily: 'Lato',
-              fontWeight: FontWeight.w900,
-              height: 0,
-            ),
-          ),
-          Text(
-            'SINCE 2007',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-              fontFamily: 'Lato',
-              fontWeight: FontWeight.w800,
-              height: 0,
-            ),
-          )
         ]));
   }
 }
