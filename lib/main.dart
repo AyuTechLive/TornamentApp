@@ -5,6 +5,7 @@ import 'package:oneup_noobs/Admin/addkills.dart';
 import 'package:oneup_noobs/Admin/addmatches.dart';
 import 'package:oneup_noobs/Auth/login.dart';
 import 'package:oneup_noobs/Pages/Account/accountpage.dart';
+import 'package:oneup_noobs/Pages/Leaderboard/leaderboard.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/paymentgateway.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
@@ -50,6 +51,6 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: AddKills());
+        home: SplashScreen());
   }
 }

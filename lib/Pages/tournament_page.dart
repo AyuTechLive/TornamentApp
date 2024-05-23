@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Components/tournamentpage_tile.dart';
+import 'package:oneup_noobs/Pages/Leaderboard/leaderboard.dart';
 import 'package:oneup_noobs/Pages/Wallet/components/wallettext.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
@@ -22,75 +25,136 @@ class TournamentPage extends StatefulWidget {
   State<TournamentPage> createState() => _TournamentPageState();
 }
 
-class _TournamentPageState extends State<TournamentPage> {
+class _TournamentPageState extends State<TournamentPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  late StreamController<DatabaseEvent> _streamController;
+  late Stream<DatabaseEvent> _stream;
+  StreamSubscription<DatabaseEvent>? _streamSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _streamController = StreamController<DatabaseEvent>.broadcast();
+    _stream = DatabaseService().getNodeStream(widget.gamename);
+    _streamSubscription = _stream.listen((event) {
+      _streamController.add(event);
+    });
+
+    _tabController.addListener(() {
+      if (_tabController.index == 0) {
+        // Reload data when switching back to "Upcoming" tab
+        _reloadStream();
+      }
+    });
+  }
+
+  void _reloadStream() {
+    _streamSubscription?.cancel();
+    _stream = DatabaseService().getNodeStream(widget.gamename);
+    _streamSubscription = _stream.listen((event) {
+      _streamController.add(event);
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    _streamSubscription?.cancel();
+    _streamController.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
     final double height = screensize.height;
     final double width = screensize.width;
     return Scaffold(
-        backgroundColor: AppColors.greycolor,
-        appBar: AppBar(
-          foregroundColor: Colors.white,
-          backgroundColor: AppColors.bluecolor,
-          title: Row(
-            children: [
-              Text(
-                widget.gamename,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
-              ),
-              Spacer(),
-              InkWell(
-                onTap: () {
-                  nextScreen(context, Wallet());
-                },
-                child: Container(
-                  width: width * 0.300,
-                  height: height * 0.039,
-                  decoration: ShapeDecoration(
-                    color: Color(0xFEFCFDFB),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFF96D2EB)),
-                      borderRadius: BorderRadius.circular(6.50),
-                    ),
-                  ),
-                  child: Center(
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Spacer(),
-                          Image.asset(
-                            'assets/coin.png',
-                            scale: 20,
-                          ),
-                          Spacer(),
-                          FutureBuilder<String>(
-                            future: _walletbalance(),
-                            builder: (context, snapshot) {
-                              return Text(
-                                '${widget.walletbalance}',
-                                style: TextStyle(
-                                  color: Color(0xFF494B4D),
-                                  fontSize: 20,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w900,
-                                  height: 0,
-                                ),
-                              );
-                            },
-                          ),
-                          Spacer(),
-                        ]),
+      backgroundColor: AppColors.greycolor,
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.bluecolor,
+        title: Row(
+          children: [
+            Text(
+              widget.gamename,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
+            Spacer(),
+            InkWell(
+              onTap: () {
+                nextScreen(context, Wallet());
+              },
+              child: Container(
+                width: width * 0.300,
+                height: height * 0.039,
+                decoration: ShapeDecoration(
+                  color: Color(0xFEFCFDFB),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: Color(0xFF96D2EB)),
+                    borderRadius: BorderRadius.circular(6.50),
                   ),
                 ),
-              )
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Spacer(),
+                      Image.asset(
+                        'assets/coin.png',
+                        scale: 20,
+                      ),
+                      Spacer(),
+                      FutureBuilder<String>(
+                        future: _walletbalance(),
+                        builder: (context, snapshot) {
+                          return Text(
+                            '${widget.walletbalance}',
+                            style: TextStyle(
+                              color: Color(0xFF494B4D),
+                              fontSize: 20,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w900,
+                              height: 0,
+                            ),
+                          );
+                        },
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: [
+            Tab(text: 'Upcoming'),
+            Tab(text: 'Past'),
+          ],
+        ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          Column(
+            children: [
+              Expanded(
+                  child: tournamentpage(
+                      widget.gamename, context, _streamController))
             ],
           ),
-        ),
-        body: Column(children: [
-          Expanded(child: tournamentpage(widget.gamename, context))
-        ]));
+          Column(
+            children: [Expanded(child: Leaderboard())],
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -108,12 +172,13 @@ Future<String> _walletbalance() async {
   }
 }
 
-Widget tournamentpage(String gamename, BuildContext context) {
+Widget tournamentpage(String gamename, BuildContext context,
+    StreamController<DatabaseEvent> _streamController) {
   final Size screensize = MediaQuery.of(context).size;
   final double height = screensize.height;
   final double width = screensize.width;
   return StreamBuilder<DatabaseEvent>(
-    stream: DatabaseService().getNodeStream(gamename),
+    stream: _streamController.stream,
     builder: (context, snapshot) {
       if (snapshot.hasData) {
         DataSnapshot dataValues = snapshot.data!.snapshot;
@@ -175,10 +240,6 @@ Widget tournamentpage(String gamename, BuildContext context) {
                     ));
               },
             );
-            // ListTile(
-            //   title: Text(list[index]['Match Title'] ?? 'No Title'),
-            //   subtitle: Text(list[index]['Date'] ?? 'No Date'),
-            // );
           },
         );
       } else if (snapshot.hasError) {

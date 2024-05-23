@@ -223,7 +223,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                   } else {
                     Utils().toastMessage(
                         'Please Wait We are Processing Your Request');
-                    _updateWallet(widget.matchid);
+                    _updateWallet(widget.matchid, _userName);
                   }
                 },
                 child: Container(
@@ -273,7 +273,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
     }
   }
 
-  Future<void> _updateWallet(String matchid) async {
+  Future<void> _updateWallet(String matchid, String username) async {
     String userEmailsDocumentId = checkUserAuthenticationType();
     DocumentReference userDocRef = FirebaseFirestore.instance
         .collection('Users')
@@ -294,8 +294,10 @@ class _JoiningMatchState extends State<JoiningMatch> {
               'matches': FieldValue.arrayUnion([matchid])
             }).then((value) {
               databaseRef = FirebaseDatabase.instance.ref(widget.game);
-              databaseRef.child(widget.matchid).child('Participants').update(
-                  {userDocSnapshot['UID']: userDocSnapshot['Email']}).then(
+              databaseRef
+                  .child(widget.matchid)
+                  .child('Participants')
+                  .update({username: userDocSnapshot['Email']}).then(
                 (value) {
                   setState(() {
                     Utils().toastMessage(
