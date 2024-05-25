@@ -243,102 +243,200 @@ class _SignUpNewState extends State<SignUpNew> {
                 height: height * 0.05375,
               ),
               Roundbuttonnew(
-                  loading: loading,
-                  title: 'SignUp',
-                  ontap: () {
-                    if (_formfield.currentState!.validate()) {
-                      //   String referalId = "AYUS78907";
-                      //   setState(() {
-                      //     loading = true;
-                      //   });
+                loading: loading,
+                title: 'SignUp',
+                // ontap: () {
+                //   if (_formfield.currentState!.validate()) {
+                //       String referalId = "AYUS78907";
+                //       setState(() {
+                //         loading = true;
+                //       });
 
-                      //   _auth
-                      //       .createUserWithEmailAndPassword(
-                      //     email: emailcontroller.text.toString(),
-                      //     password: passwordcontroller.text.toString(),
-                      //   )
-                      //       .then(
-                      //     (value) {
-                      //       String id = emailcontroller.text.toString();
-                      //       fireStore.doc(id).set({
-                      //         'Email': emailcontroller.text.toString(),
-                      //         'Password': passwordcontroller.text.toString(),
-                      //         'UID': DateTime.now()
-                      //             .microsecondsSinceEpoch
-                      //             .toString(),
-                      //         'My Courses': [],
-                      //         'DOJ': formattedDate,
-                      //         'Name': namecontroller.text.toString(),
-                      //         'Wallet': "0",
-                      //         'ReferalId': referalId
-                      //       }).then((value) {
-                      //         setState(
-                      //           () {
-                      //             loading = false;
-                      //             Utils().toastMessage(
-                      //                 'Account Sucessfully Created');
-                      //             _auth // login succesful to then function mei chala jayega warna on error mei chala jayegaa
-                      //                 .signInWithEmailAndPassword(
-                      //                     email: emailcontroller.text.toString(),
-                      //                     password:
-                      //                         passwordcontroller.text.toString())
-                      //                 .then((value) {
-                      //               fireStore2.doc(referalId).set({
-                      //                 "id": referalId,
-                      //                 "Email": emailcontroller.text.toString(),
-                      //                 "count": "0"
-                      //               }).then(
-                      //                 (value) {
-                      //                   Utils().toastMessage('Login succesful');
-                      //                   Navigator.push(
-                      //                       context,
-                      //                       MaterialPageRoute(
-                      //                         builder: (context) => MainPage(),
-                      //                       ));
-                      //                 },
-                      //               ).onError(
-                      //                 (error, stackTrace) {
-                      //                   Utils().toastMessage(error.toString());
-                      //                 },
-                      //               );
-                      //             });
-                      //           },
-                      //         );
-                      //       });
-                      //     },
-                      //   ).onError(
-                      //     (error, stackTrace) {
-                      //       Utils().toastMessage(error.toString());
-                      //       setState(() {
-                      //         loading = false;
-                      //       });
-                      //     },
-                      //   );
+                //       _auth
+                //           .createUserWithEmailAndPassword(
+                //         email: emailcontroller.text.toString(),
+                //         password: passwordcontroller.text.toString(),
+                //       )
+                //           .then(
+                //         (value) {
+                //           String id = emailcontroller.text.toString();
+                //           fireStore.doc(id).set({
+                //             'Email': emailcontroller.text.toString(),
+                //             'Password': passwordcontroller.text.toString(),
+                //             'UID': DateTime.now()
+                //                 .microsecondsSinceEpoch
+                //                 .toString(),
+                //             'My Courses': [],
+                //             'DOJ': formattedDate,
+                //             'Name': namecontroller.text.toString(),
+                //             'Wallet': "0",
+                //             'ReferalId': referalId
+                //           }).then((value) {
+                //             setState(
+                //               () {
+                //                 loading = false;
+                //                 Utils().toastMessage(
+                //                     'Account Sucessfully Created');
+                //                 _auth // login succesful to then function mei chala jayega warna on error mei chala jayegaa
+                //                     .signInWithEmailAndPassword(
+                //                         email: emailcontroller.text.toString(),
+                //                         password:
+                //                             passwordcontroller.text.toString())
+                //                     .then((value) {
+                //                   fireStore2.doc(referalId).set({
+                //                     "id": referalId,
+                //                     "Email": emailcontroller.text.toString(),
+                //                     "count": "0"
+                //                   }).then(
+                //                     (value) {
+                //                       Utils().toastMessage('Login succesful');
+                //                       Navigator.push(
+                //                           context,
+                //                           MaterialPageRoute(
+                //                             builder: (context) => MainPage(),
+                //                           ));
+                //                     },
+                //                   ).onError(
+                //                     (error, stackTrace) {
+                //                       Utils().toastMessage(error.toString());
+                //                     },
+                //                   );
+                //                 });
+                //               },
+                //             );
+                //           });
+                //         },
+                //       ).onError(
+                //         (error, stackTrace) {
+                //           Utils().toastMessage(error.toString());
+                //           setState(() {
+                //             loading = false;
+                //           });
+                //         },
+                //       );
+                //     // fireStore2
+                //     //     .doc("AYUS78907")
+                //     //     .get()
+                //     //     .then((docSnapshot) async {
+                //     //   if (docSnapshot.exists) {
+                //     //     String referralEmail =
+                //     //         docSnapshot.data()?['Email'] ?? 'Email not found';
+                //     //     DocumentReference userDocRef = FirebaseFirestore
+                //     //         .instance
+                //     //         .collection('Users')
+                //     //         .doc(docSnapshot.data()?['Email']);
+                //     //     await userDocRef.update({
+                //     //       'MyReferals': FieldValue.arrayUnion(
+                //     //           [emailcontroller.text.toString()])
+                //     //     });
+
+                //     //     // Referral code exists, proceed with user creation
+
+                //     //   } else {
+                //     //     // Referral code not found
+                //     //     Utils().toastMessage('Invalid referral code');
+                //     //   }
+                //     // }
+                //    // );
+                //   }
+                // }
+                ontap: () {
+                  if (_formfield.currentState!.validate()) {
+                    String enteredReferalCode =
+                        referalcodecontroller.text.trim();
+                    if (referalcodecontroller.text.isEmpty) {
+                      if (_formfield.currentState!.validate()) {
+                        String referalId = namecontroller.text[3].toString() +
+                            DateTime.now().microsecondsSinceEpoch.toString();
+                        setState(() {
+                          loading = true;
+                        });
+
+                        _auth
+                            .createUserWithEmailAndPassword(
+                          email: emailcontroller.text.toString(),
+                          password: passwordcontroller.text.toString(),
+                        )
+                            .then(
+                          (value) {
+                            String id = emailcontroller.text.toString();
+                            fireStore.doc(id).set({
+                              'Email': emailcontroller.text.toString(),
+                              'Password': passwordcontroller.text.toString(),
+                              'UID': DateTime.now()
+                                  .microsecondsSinceEpoch
+                                  .toString(),
+                              'My Courses': [],
+                              'DOJ': formattedDate,
+                              'Name': namecontroller.text.toString(),
+                              'Wallet': "0",
+                              'ReferalId': referalId
+                            }).then((value) {
+                              setState(
+                                () {
+                                  loading = false;
+                                  Utils().toastMessage(
+                                      'Account Sucessfully Created');
+                                  _auth // login succesful to then function mei chala jayega warna on error mei chala jayegaa
+                                      .signInWithEmailAndPassword(
+                                          email:
+                                              emailcontroller.text.toString(),
+                                          password: passwordcontroller.text
+                                              .toString())
+                                      .then((value) {
+                                    fireStore2.doc(referalId).set({
+                                      "id": referalId,
+                                      "Email": emailcontroller.text.toString(),
+                                      "count": "0"
+                                    }).then(
+                                      (value) {
+                                        Utils().toastMessage('Login succesful');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => MainPage(),
+                                            ));
+                                      },
+                                    ).onError(
+                                      (error, stackTrace) {
+                                        Utils().toastMessage(error.toString());
+                                      },
+                                    );
+                                  });
+                                },
+                              );
+                            });
+                          },
+                        ).onError(
+                          (error, stackTrace) {
+                            Utils().toastMessage(error.toString());
+                            setState(() {
+                              loading = false;
+                            });
+                          },
+                        );
+                      }
+                    } else {
                       fireStore2
-                          .doc("AYUS78907")
+                          .doc(enteredReferalCode)
                           .get()
-                          .then((docSnapshot) async {
+                          .then((docSnapshot) {
                         if (docSnapshot.exists) {
-                          String referralEmail =
-                              docSnapshot.data()?['Email'] ?? 'Email not found';
-                          DocumentReference userDocRef = FirebaseFirestore
-                              .instance
-                              .collection('Users')
-                              .doc(docSnapshot.data()?['Email']);
-                          await userDocRef.update({
-                            'MyReferals': FieldValue.arrayUnion(
-                                [emailcontroller.text.toString()])
-                          });
-
                           // Referral code exists, proceed with user creation
-                          print(referralEmail);
+                          createNewUser(formattedDate,
+                              referalcodecontroller.text.toString());
                         } else {
                           // Referral code not found
                           Utils().toastMessage('Invalid referral code');
                         }
+                      }).catchError((error) {
+                        Utils().toastMessage(
+                            'Error checking referral code: $error');
                       });
                     }
-                  }),
+                  }
+                },
+              ),
               SizedBox(
                 height: height * 0.0475,
               ),
@@ -364,6 +462,86 @@ class _SignUpNewState extends State<SignUpNew> {
           ),
         ),
       ),
+    );
+  }
+
+  void createNewUser(String formatteddate, String enteredrefferedid) {
+    String referalId = namecontroller.text[3].toString() +
+        DateTime.now().microsecondsSinceEpoch.toString();
+    setState(() {
+      loading = true;
+    });
+
+    _auth
+        .createUserWithEmailAndPassword(
+      email: emailcontroller.text.toString(),
+      password: passwordcontroller.text.toString(),
+    )
+        .then((value) {
+      String id = emailcontroller.text.toString();
+      fireStore.doc(id).set({
+        'Email': emailcontroller.text.toString(),
+        'Password': passwordcontroller.text.toString(),
+        'UID': DateTime.now().microsecondsSinceEpoch.toString(),
+        'My Courses': [],
+        'DOJ': formatteddate,
+        'Name': namecontroller.text.toString(),
+        'Wallet': "0",
+        'ReferalId': referalId
+      }).then((value) {
+        setState(() {
+          loading = false;
+          Utils().toastMessage('Account Sucessfully Created');
+          _auth
+              .signInWithEmailAndPassword(
+                  email: emailcontroller.text.toString(),
+                  password: passwordcontroller.text.toString())
+              .then((value) {
+            fireStore2.doc(referalId).set({
+              "id": referalId,
+              "Email": emailcontroller.text.toString(),
+              "count": "0"
+            }).then((value) {
+              updateReferralCount(enteredrefferedid);
+            }).onError((error, stackTrace) {
+              Utils().toastMessage(error.toString());
+            });
+          });
+        });
+      });
+    }).onError((error, stackTrace) {
+      Utils().toastMessage(error.toString());
+      setState(() {
+        loading = false;
+      });
+    });
+  }
+
+  void updateReferralCount(String referralCode) {
+    fireStore2.doc(referralCode).get().then((docSnapshot) async {
+      if (docSnapshot.exists) {
+        DocumentReference userDocRef = FirebaseFirestore.instance
+            .collection('Users')
+            .doc(docSnapshot.data()?['Email']);
+        await userDocRef.update({
+          'MyReferals': FieldValue.arrayUnion([emailcontroller.text.toString()])
+        });
+      }
+    }).then(
+      (value) {
+        fireStore2.doc(referralCode).update({
+          'count': FieldValue.increment(1),
+        }).then((_) {
+          Utils().toastMessage('Referral success');
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MainPage(),
+              ));
+        }).catchError((error) {
+          Utils().toastMessage('Error updating referral count: $error');
+        });
+      },
     );
   }
 }
