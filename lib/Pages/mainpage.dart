@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:oneup_noobs/Admin/addmatches.dart';
 import 'package:oneup_noobs/Pages/Account/accountpage.dart';
+import 'package:oneup_noobs/Pages/ReferalSystem/referandearn.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
@@ -16,13 +17,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late PageController _pageController;
-  int _currentIndex = 0;
+  int _currentIndex = 1; // Set default index to 1 (Play)
   DateTime? currentBackPressTime;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(
+        initialPage: _currentIndex); // Set initial page to the default index
   }
 
   @override
@@ -64,6 +66,7 @@ class _MainPageState extends State<MainPage> {
             });
           },
           children: [
+            ReferEarn(),
             HomePage(),
             // TournamentPage(
             //   gamename: 'gamename',
@@ -87,6 +90,13 @@ class _MainPageState extends State<MainPage> {
             );
           },
           items: [
+            BottomNavigationBarItem(
+              icon: Icon(
+                color: Colors.amber,
+                Icons.monetization_on,
+              ),
+              label: 'Earn',
+            ),
             BottomNavigationBarItem(
               icon: Icon(
                 Icons.games,

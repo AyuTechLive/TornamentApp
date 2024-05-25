@@ -4,10 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Auth/login.dart';
 import 'package:oneup_noobs/Pages/Account/itemcard.dart';
+import 'package:oneup_noobs/Pages/ReferalSystem/myreferal.dart';
+import 'package:oneup_noobs/Pages/ReferalSystem/referandearn.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
+import 'package:oneup_noobs/Pages/leaderboardscreen.dart';
+import 'package:oneup_noobs/Pages/myrewardscreen.dart';
+import 'package:oneup_noobs/Pages/mystatistics.dart';
+import 'package:oneup_noobs/Pages/topplayers.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/widget.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -336,14 +343,18 @@ class _AccountPageState extends State<AccountPage> {
             Column(
               children: [
                 ItemCardAccount(
-                  iconname: Icons.person,
-                  ontap: () {},
-                  title: 'About Us',
+                  iconname: Icons.group_add,
+                  ontap: () {
+                    nextScreen(context, ReferEarn());
+                  },
+                  title: 'Refer And Earn',
                 ),
                 ItemCardAccount(
-                  iconname: Icons.share,
-                  ontap: () {},
-                  title: 'Share',
+                  iconname: Icons.group_add,
+                  ontap: () {
+                    nextScreen(context, MyReferal());
+                  },
+                  title: 'My Referal',
                 ),
                 ItemCardAccount(
                   iconname: Icons.wallet,
@@ -354,28 +365,43 @@ class _AccountPageState extends State<AccountPage> {
                 ),
                 ItemCardAccount(
                   iconname: Icons.military_tech,
-                  ontap: () {},
-                  title: 'My Matches',
-                ),
-                ItemCardAccount(
-                  iconname: Icons.bar_chart,
-                  ontap: () {},
-                  title: 'My Statistics',
-                ),
-                ItemCardAccount(
-                  iconname: Icons.emoji_events,
-                  ontap: () {},
-                  title: 'My Rewards',
+                  ontap: () {
+                    nextScreen(context, TopPlayers());
+                  },
+                  title: 'Top Players',
                 ),
                 ItemCardAccount(
                   iconname: Icons.leaderboard,
-                  ontap: () {},
+                  ontap: () {
+                    nextScreen(context, LeaderBoardScreen());
+                  },
                   title: 'Leaderboard',
                 ),
                 ItemCardAccount(
-                  iconname: Icons.group_add,
+                  iconname: Icons.emoji_events,
+                  ontap: () {
+                    nextScreen(context, MyRewards());
+                  },
+                  title: 'My Rewards',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.bar_chart,
+                  ontap: () {
+                    nextScreen(context, MyStatistics());
+                  },
+                  title: 'My Statistics',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.person,
                   ontap: () {},
-                  title: 'My Referal',
+                  title: 'About Us',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.share,
+                  ontap: () {
+                    onShare(context);
+                  },
+                  title: 'Share',
                 ),
                 ItemCardAccount(
                   iconname: Icons.logout,
@@ -418,5 +444,10 @@ class _AccountPageState extends State<AccountPage> {
     } else {
       return '0';
     }
+  }
+
+  void onShare(BuildContext context) async {
+    final String textToShare =
+        "Download OneUp Noobs From Google Play Store.  https://play.google.com/  await Share.share(textToShare, subject: 'Sharing via Oneup Noobs";
   }
 }

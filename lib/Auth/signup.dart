@@ -346,8 +346,17 @@ class _SignUpNewState extends State<SignUpNew> {
                         referalcodecontroller.text.trim();
                     if (referalcodecontroller.text.isEmpty) {
                       if (_formfield.currentState!.validate()) {
-                        String referalId = namecontroller.text[3].toString() +
+                        String lastfour =
                             DateTime.now().microsecondsSinceEpoch.toString();
+                        int length = lastfour.length;
+                        String referalId = namecontroller.text.substring(0, 4) +
+                            DateTime.now()
+                                .microsecondsSinceEpoch
+                                .toString()
+                                .substring(length - 4);
+
+                        // namecontroller.text[3].toString() +
+                        //     DateTime.now().microsecondsSinceEpoch.toString();
                         setState(() {
                           loading = true;
                         });
@@ -466,8 +475,10 @@ class _SignUpNewState extends State<SignUpNew> {
   }
 
   void createNewUser(String formatteddate, String enteredrefferedid) {
-    String referalId = namecontroller.text[3].toString() +
-        DateTime.now().microsecondsSinceEpoch.toString();
+    String lastfour = DateTime.now().microsecondsSinceEpoch.toString();
+    int length = lastfour.length;
+    String referalId = namecontroller.text.substring(0, 4) +
+        DateTime.now().microsecondsSinceEpoch.toString().substring(length - 4);
     setState(() {
       loading = true;
     });
