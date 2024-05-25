@@ -47,6 +47,9 @@ class _TournamentPageState extends State<TournamentPage>
         // Reload data when switching back to "Upcoming" tab
         _reloadStream();
       }
+      if (_tabController.index == 1) {
+        _reloadStream();
+      }
     });
   }
 
@@ -133,9 +136,11 @@ class _TournamentPageState extends State<TournamentPage>
         ),
         bottom: TabBar(
           controller: _tabController,
+          labelColor: Colors.white,
+          indicatorColor: Colors.white,
           tabs: [
-            Tab(text: 'Upcoming'),
-            Tab(text: 'Past'),
+            Tab(text: 'ONGOING'),
+            Tab(text: 'RESULTS'),
           ],
         ),
       ),
@@ -150,7 +155,11 @@ class _TournamentPageState extends State<TournamentPage>
             ],
           ),
           Column(
-            children: [Expanded(child: Leaderboard())],
+            children: [
+              Expanded(
+                  child:
+                      resultpage(widget.gamename, context, _streamController))
+            ],
           ),
         ],
       ),
@@ -238,6 +247,103 @@ Widget tournamentpage(String gamename, BuildContext context,
                       roomid: list[index]['Room ID'],
                       partcipantlist: participantEmailList,
                     ));
+              },
+            );
+          },
+        );
+      } else if (snapshot.hasError) {
+        return Center(child: Text('Error: ${snapshot.error}'));
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
+    },
+  );
+}
+
+Widget resultpage(String gamename, BuildContext context,
+    StreamController<DatabaseEvent> _streamController) {
+  final Size screensize = MediaQuery.of(context).size;
+  final double height = screensize.height;
+  final double width = screensize.width;
+  return StreamBuilder<DatabaseEvent>(
+    stream: _streamController.stream,
+    builder: (context, snapshot) {
+      if (snapshot.hasData) {
+        DataSnapshot dataValues = snapshot.data!.snapshot;
+        Map<dynamic, dynamic>? values =
+            dataValues.value as Map<dynamic, dynamic>?;
+
+        if (values == null) {
+          return Center(child: Text('No data available'));
+        }
+        List<dynamic> list = values.values.toList();
+        List<dynamic> filteredList =
+            list.where((match) => match['MatchEnded'] == true).toList();
+        List<String> participantEmailList = [];
+
+        return ListView.separated(
+          separatorBuilder: (context, index) {
+            return SizedBox(
+              height: height * 0.005,
+            );
+          },
+          itemCount: filteredList.length,
+          itemBuilder: (context, index) {
+            int participantCount = 0;
+            if (filteredList[index]['Participants'] != null) {
+              Map<dynamic, dynamic> participants =
+                  filteredList[index]['Participants'];
+
+              participantCount = participants.length;
+              participantEmailList
+                  .addAll(participants.values.map((value) => value.toString()));
+            }
+
+            return TornamentPageTile(
+              matchtitle: filteredList[index]['Match Title'],
+              map: filteredList[index]['Map'],
+              date: filteredList[index]['Date'],
+              entryfees: filteredList[index]['Entry Fees'],
+              matchimg: filteredList[index]['Match Img'],
+              matchtype: filteredList[index]['Match Type'],
+              perkill: filteredList[index]['Per Kill'],
+              prizepool: filteredList[index]['Prize Pool'],
+              time: filteredList[index]['Time'],
+              maxparticipants: filteredList[index]['Max Participants'],
+              enrolledparticipants: participantCount.toString(),
+              ontap: () {
+                nextScreen(
+                    context,
+                    Leaderboard(
+                      gamename: gamename,
+                      matchid: filteredList[index]['id'],
+                      matchtitle: list[index]['Match Title'],
+                      img: list[index]['Match Img'],
+                      date: list[index]['Date'],
+                      entryfees: list[index]['Entry Fees'],
+                      game: gamename,
+                      map: list[index]['Map'],
+                      perkill: list[index]['Per Kill'],
+                      prizepool: list[index]['Prize Pool'],
+                      team: list[index]['Match Type'],
+                      time: list[index]['Time'],
+                    )
+                    // TournamentDetails(
+                    //   matchtitle: filteredList[index]['Match Title'],
+                    //   img: filteredList[index]['Match Img'],
+                    //   date: filteredList[index]['Date'],
+                    //   entryfees: filteredList[index]['Entry Fees'],
+                    //   game: gamename,
+                    //   map: filteredList[index]['Map'],
+                    //   matchid: filteredList[index]['id'],
+                    //   perkill: filteredList[index]['Per Kill'],
+                    //   prizepool: filteredList[index]['Prize Pool'],
+                    //   team: filteredList[index]['Match Type'],
+                    //   time: filteredList[index]['Time'],
+                    //   roomid: filteredList[index]['Room ID'],
+                    //   partcipantlist: participantEmailList,
+                    // ));
+                    );
               },
             );
           },

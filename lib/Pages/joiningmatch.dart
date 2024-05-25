@@ -120,7 +120,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     height: height * 0.03,
                   ),
                   Text(
-                    "Total Payable Amount : 🪙10",
+                    "Total Payable Amount : 🪙${widget.entryfees}",
                     style: const TextStyle(
                       fontFamily: "Inter",
                       fontSize: 16,
@@ -187,25 +187,30 @@ class _JoiningMatchState extends State<JoiningMatch> {
           Row(
             children: [
               Spacer(),
-              Container(
-                width: width * 0.38,
-                height: height * 0.069,
-                decoration: ShapeDecoration(
-                  color: Color(0xFFEF7A78),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(width: 1, color: Color(0xFF8FCCBB)),
-                    borderRadius: BorderRadius.circular(7),
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  width: width * 0.38,
+                  height: height * 0.069,
+                  decoration: ShapeDecoration(
+                    color: Color(0xFFEF7A78),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFF8FCCBB)),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'CANCEL',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 21,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
+                  child: Center(
+                    child: Text(
+                      'CANCEL',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 21,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
                     ),
                   ),
                 ),
@@ -217,7 +222,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     // Show error if the user hasn't entered a name
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Please enter your name'),
+                        content: Text('Please enter your Game User name'),
                       ),
                     );
                   } else {
@@ -330,11 +335,11 @@ class _JoiningMatchState extends State<JoiningMatch> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Enter Your Name'),
+          title: Text('Enter Your Game Username'),
           content: TextFormField(
             controller: _nameController,
             decoration: InputDecoration(
-              hintText: 'Enter your name',
+              hintText: 'Enter your Game Username',
             ),
           ),
           actions: <Widget>[
