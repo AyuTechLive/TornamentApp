@@ -73,8 +73,8 @@ Widget sucessfailure(bool value, BuildContext context) {
   final double width = screensize.width;
   if (value == false) {
     return Container(
-      width: width * 0.170,
-      height: height * 0.028,
+      width: width * 0.220,
+      height: height * 0.038,
       decoration: ShapeDecoration(
         color: AppColors.orangecolor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -88,10 +88,10 @@ Widget sucessfailure(bool value, BuildContext context) {
     );
   } else {
     return Container(
-      width: width * 0.170,
-      height: height * 0.028,
+      width: width * 0.220,
+      height: height * 0.038,
       decoration: ShapeDecoration(
-        color: AppColors.greencolor,
+        color: Colors.green,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       child: Center(

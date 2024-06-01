@@ -26,6 +26,7 @@ class TournamentDetails extends StatefulWidget {
   final String matchtitle;
   final String roomid;
   final List partcipantlist;
+  final bool matchended;
 
   const TournamentDetails(
       {super.key,
@@ -41,7 +42,8 @@ class TournamentDetails extends StatefulWidget {
       required this.img,
       required this.matchtitle,
       required this.roomid,
-      required this.partcipantlist});
+      required this.partcipantlist,
+      required this.matchended});
 
   @override
   State<TournamentDetails> createState() => _TournamentDetailsState();
@@ -308,24 +310,36 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                   ),
           ),
           InkWell(
-              onTap: isTournamentStarted
-                  ? null
-                  : isMatchJoined
-                      ? null
-                      : () {
-                          nextScreen(
+            onTap: widget.matchended
+                ? null // Disable button if match ended
+                : isTournamentStarted
+                    ? null // Disable button if tournament started
+                    : isMatchJoined
+                        ? null // Disable button if already joined
+                        : () {
+                            nextScreen(
                               context,
                               JoiningMatch(
-                                  entryfees: widget.entryfees,
-                                  game: widget.game,
-                                  matchid: widget.matchid));
-                        },
-              child: Container(
-                  width: width,
-                  height: height * 0.05,
-                  color: AppColors.orangecolor,
-                  child: Center(
-                    child: isTournamentStarted
+                                entryfees: widget.entryfees,
+                                game: widget.game,
+                                matchid: widget.matchid,
+                              ),
+                            );
+                          },
+            child: Container(
+              width: width,
+              height: height * 0.05,
+              color: AppColors.orangecolor,
+              child: Center(
+                child: widget.matchended
+                    ? Text(
+                        'MATCH ENDED',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
+                    : isTournamentStarted
                         ? Text(
                             'TOURNAMENT STARTED',
                             style: TextStyle(
@@ -355,7 +369,9 @@ class _TournamentDetailsState extends State<TournamentDetails> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                  )))
+              ),
+            ),
+          ),
         ],
       ),
     );

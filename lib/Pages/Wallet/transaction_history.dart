@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:oneup_noobs/Pages/Wallet/components/transactionhistorytile.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
-import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart'; // Import the userauthenticationtype.dart file
+import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
 
 class TransactionHistory extends StatefulWidget {
   const TransactionHistory({super.key});
@@ -55,17 +55,26 @@ class _TransactionHistoryState extends State<TransactionHistory> {
                   );
                 }
 
+                List<DocumentSnapshot> sortedDocs =
+                    snapshot.data!.docs.toList();
+                sortedDocs.sort((a, b) {
+                  Timestamp timestampA = a['date'];
+                  Timestamp timestampB = b['date'];
+                  return timestampB.compareTo(timestampA);
+                });
+
                 return ListView.separated(
                   separatorBuilder: (context, index) {
                     return SizedBox(height: height * 0.02);
                   },
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: sortedDocs.length,
                   itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data!.docs[index];
+                    DocumentSnapshot document = sortedDocs[index];
                     Timestamp timestamp = document['date'];
                     DateTime dateTime = timestamp.toDate();
                     String formattedDate =
                         DateFormat('yyyy-MM-dd hh:mm a').format(dateTime);
+
                     return Padding(
                       padding: EdgeInsets.only(
                           left: width * 0.03, right: width * 0.02),

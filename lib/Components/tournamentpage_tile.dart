@@ -15,20 +15,21 @@ class TornamentPageTile extends StatelessWidget {
   final String maxparticipants;
   final String enrolledparticipants;
 
-  const TornamentPageTile(
-      {super.key,
-      required this.ontap,
-      required this.matchimg,
-      required this.map,
-      required this.matchtype,
-      required this.date,
-      required this.time,
-      required this.prizepool,
-      required this.perkill,
-      required this.entryfees,
-      required this.matchtitle,
-      required this.maxparticipants,
-      required this.enrolledparticipants});
+  const TornamentPageTile({
+    super.key,
+    required this.ontap,
+    required this.matchimg,
+    required this.map,
+    required this.matchtype,
+    required this.date,
+    required this.time,
+    required this.prizepool,
+    required this.perkill,
+    required this.entryfees,
+    required this.matchtitle,
+    required this.maxparticipants,
+    required this.enrolledparticipants,
+  });
 
   @override
   Widget build(BuildContext context) {

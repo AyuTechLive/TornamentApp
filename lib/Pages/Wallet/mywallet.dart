@@ -178,7 +178,6 @@ class _WalletState extends State<Wallet> {
                                           WithDrawMoney(
                                               accountbalance:
                                                   _winMoneyBalance));
-                                      Utils().toastMessage('You can withdraw');
                                     }
                                     if (_winMoneyBalance <= 100) {
                                       Utils().toastMessage(

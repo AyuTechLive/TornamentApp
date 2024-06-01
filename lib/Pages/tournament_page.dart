@@ -233,6 +233,7 @@ Widget tournamentpage(String gamename, BuildContext context,
                 nextScreen(
                     context,
                     TournamentDetails(
+                      matchended: list[index]['MatchEnded'],
                       matchtitle: list[index]['Match Title'],
                       img: list[index]['Match Img'],
                       date: list[index]['Date'],

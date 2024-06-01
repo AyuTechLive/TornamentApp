@@ -7,6 +7,7 @@ import 'package:oneup_noobs/Pages/Account/itemcard.dart';
 import 'package:oneup_noobs/Pages/ReferalSystem/myreferal.dart';
 import 'package:oneup_noobs/Pages/ReferalSystem/referandearn.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
+import 'package:oneup_noobs/Pages/Wallet/transaction_history.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
 import 'package:oneup_noobs/Pages/leaderboardscreen.dart';
 import 'package:oneup_noobs/Pages/myrewardscreen.dart';
@@ -296,15 +297,19 @@ class _AccountPageState extends State<AccountPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
-                              "0",
-                              style: const TextStyle(
-                                fontFamily: "Inter",
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                              textAlign: TextAlign.left,
+                            FutureBuilder<String>(
+                              future: _walletbalance('WinMoney'),
+                              builder: (context, snapshot) {
+                                return Text(
+                                  '${snapshot.data}',
+                                  style: const TextStyle(
+                                    fontFamily: "Inter",
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              },
                             ),
                             Text(
                               "Amount",
@@ -362,6 +367,13 @@ class _AccountPageState extends State<AccountPage> {
                     nextScreen(context, Wallet());
                   },
                   title: 'My Wallet',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.wallet_rounded,
+                  ontap: () {
+                    nextScreen(context, TransactionHistory());
+                  },
+                  title: 'Withdrawal History',
                 ),
                 ItemCardAccount(
                   iconname: Icons.military_tech,

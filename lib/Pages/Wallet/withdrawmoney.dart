@@ -17,6 +17,7 @@ class WithDrawMoney extends StatefulWidget {
 class _WithDrawMoneyState extends State<WithDrawMoney> {
   final amountcontroller = TextEditingController();
   final upiidcontroller = TextEditingController();
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     final Size screenSize = MediaQuery.of(context).size;
@@ -57,16 +58,27 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
               height: height * 0.1,
             ),
             InkWell(
-              onTap: () async {
-                if (int.parse(amountcontroller.text) < widget.accountbalance) {
-                  Utils().toastMessage('procee');
+              onTap: _isLoading
+                  ? null // Disable the button if loading
+                  : () async {
+                      if (int.parse(amountcontroller.text) <
+                          widget.accountbalance) {
+                        Utils().toastMessage('Proceed');
 
-                  _updateWallet();
-                  await _withdrawMoney();
-                } else {
-                  Utils().toastMessage('Insufficient Balance');
-                }
-              },
+                        setState(() {
+                          _isLoading = true; // Set loading state to true
+                        });
+
+                        await _updateWallet();
+                        await _withdrawMoney();
+
+                        setState(() {
+                          _isLoading = false; // Set loading state to false
+                        });
+                      } else {
+                        Utils().toastMessage('Insufficient Balance');
+                      }
+                    },
               child: Container(
                 width: width * 0.758,
                 height: height * 0.0697,
@@ -78,17 +90,20 @@ class _WithDrawMoneyState extends State<WithDrawMoney> {
                   ),
                 ),
                 child: Center(
-                  child: Text(
-                    'Withdraw Money',
-                    style: TextStyle(
-                      color: Color(0xFFD5FAF5),
-                      fontSize: 21,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
-                  ),
-                ),
+                    child: _isLoading
+                        ? CircularProgressIndicator(
+                            color: Colors.white,
+                          )
+                        : Text(
+                            'Withdraw Money',
+                            style: TextStyle(
+                              color: Color(0xFFD5FAF5),
+                              fontSize: 21,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          )),
               ),
             )
           ],
