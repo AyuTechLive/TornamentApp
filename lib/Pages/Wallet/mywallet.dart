@@ -6,7 +6,9 @@ import 'package:oneup_noobs/Pages/Wallet/components/walletbutton.dart';
 import 'package:oneup_noobs/Pages/Wallet/components/wallettext.dart';
 import 'package:oneup_noobs/Pages/Wallet/paymentgateway.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
+import 'package:oneup_noobs/Pages/Wallet/withdrawmoney.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
+import 'package:oneup_noobs/Utils/utils.dart';
 import 'package:oneup_noobs/Utils/widget.dart';
 
 class Wallet extends StatefulWidget {
@@ -17,6 +19,21 @@ class Wallet extends StatefulWidget {
 }
 
 class _WalletState extends State<Wallet> {
+  int _winMoneyBalance = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _getWinMoneyBalance();
+    super.initState();
+  }
+
+  void _getWinMoneyBalance() async {
+    int winMoneyBalance = await _winbalance('WinMoney');
+    setState(() {
+      _winMoneyBalance = winMoneyBalance;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size screensize = MediaQuery.of(context).size;
@@ -87,7 +104,7 @@ class _WalletState extends State<Wallet> {
                                         scale: 20,
                                       ),
                                       FutureBuilder<String>(
-                                        future: _walletbalance(),
+                                        future: _walletbalance('Wallet'),
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
@@ -109,9 +126,28 @@ class _WalletState extends State<Wallet> {
                                 SizedBox(
                                   height: height * 0.01,
                                 ),
-                                Wallettext(
-                                  title: 'Win money : 0.00',
+                                FutureBuilder<String>(
+                                  future: _walletbalance('WinMoney'),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return Wallettext(
+                                        title: 'Loading...',
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Wallettext(
+                                        title: 'Error',
+                                      );
+                                    } else {
+                                      return Wallettext(
+                                        title: 'Win money : ${snapshot.data}',
+                                      );
+                                    }
+                                  },
                                 ),
+                                // Wallettext(
+                                //   title: 'Win money : 0.00',
+                                // ),
                                 SizedBox(
                                   height: height * 0.015,
                                 ),
@@ -135,7 +171,24 @@ class _WalletState extends State<Wallet> {
                                   height: height * 0.01,
                                 ),
                                 Walletbutton(
-                                  ontap: () {},
+                                  ontap: () {
+                                    if (_winMoneyBalance > 100) {
+                                      nextScreen(
+                                          context,
+                                          WithDrawMoney(
+                                              accountbalance:
+                                                  _winMoneyBalance));
+                                      Utils().toastMessage('You can withdraw');
+                                    }
+                                    if (_winMoneyBalance <= 100) {
+                                      Utils().toastMessage(
+                                          'To Withdraw balance should be minimum 100');
+                                    }
+                                    // print(_winMoneyBalance);
+                                    // if (int.parse(_winMoneyBalance) > 100) {
+                                    //   Utils().toastMessage('Withdraw');
+                                    // }
+                                  },
                                   title: 'Withdraw',
                                 )
                               ],
@@ -285,7 +338,7 @@ class _WalletState extends State<Wallet> {
     );
   }
 
-  Future<String> _walletbalance() async {
+  Future<String> _walletbalance(String value) async {
     String userEmailsDocumentId = checkUserAuthenticationType();
     DocumentReference userDocRef = FirebaseFirestore.instance
         .collection('Users')
@@ -293,10 +346,25 @@ class _WalletState extends State<Wallet> {
 
     DocumentSnapshot userDocSnapshot = await userDocRef.get();
     if (userDocSnapshot.exists) {
-      var currentWalletValue = userDocSnapshot['Wallet'] ?? '0';
+      var currentWalletValue = userDocSnapshot[value] ?? '0';
       return currentWalletValue.toString();
     } else {
       return '0';
+    }
+  }
+
+  Future<int> _winbalance(String value) async {
+    String userEmailsDocumentId = checkUserAuthenticationType();
+    DocumentReference userDocRef = FirebaseFirestore.instance
+        .collection('Users')
+        .doc(userEmailsDocumentId);
+
+    DocumentSnapshot userDocSnapshot = await userDocRef.get();
+    if (userDocSnapshot.exists) {
+      var currentWalletValue = userDocSnapshot[value] ?? '0';
+      return currentWalletValue;
+    } else {
+      return 0;
     }
   }
 }

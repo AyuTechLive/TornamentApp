@@ -154,6 +154,23 @@ class _SignUpNewState extends State<SignUpNew> {
                           return null;
                         },
                       ),
+                      SizedBox(
+                        height: height * 0.04,
+                      ),
+                      Text(
+                        'Referal Code',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontFamily: 'Lato',
+                          fontWeight: FontWeight.w300,
+                          height: 0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: height * 0.04,
+                      ),
                       TextFormField(
                         controller: referalcodecontroller,
                         decoration: const InputDecoration(
@@ -172,7 +189,7 @@ class _SignUpNewState extends State<SignUpNew> {
                             ),
                             //helperText: 'Enter your email',
                             prefixIcon: Icon(
-                              Icons.alternate_email,
+                              Icons.group_add,
                               color: AppColors.bluecolor,
                             )),
                       ),

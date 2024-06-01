@@ -9,6 +9,7 @@ import 'package:oneup_noobs/Pages/Leaderboard/leaderboard.dart';
 import 'package:oneup_noobs/Pages/ReferalSystem/myreferal.dart';
 import 'package:oneup_noobs/Pages/Wallet/mywallet.dart';
 import 'package:oneup_noobs/Pages/Wallet/paymentgateway.dart';
+import 'package:oneup_noobs/Pages/Wallet/transaction_history.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
 import 'package:oneup_noobs/Pages/joiningmatch.dart';
 import 'package:oneup_noobs/Pages/mainpage.dart';
