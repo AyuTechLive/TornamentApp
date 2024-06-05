@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:oneup_noobs/Auth/forgotpassword.dart';
 import 'package:oneup_noobs/Auth/login.dart';
 import 'package:oneup_noobs/Pages/Account/itemcard.dart';
 import 'package:oneup_noobs/Pages/ReferalSystem/myreferal.dart';
@@ -15,6 +16,7 @@ import 'package:oneup_noobs/Pages/mystatistics.dart';
 import 'package:oneup_noobs/Pages/topplayers.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/widget.dart';
+import 'package:oneup_noobs/Webview/webview.dart';
 import 'package:share_plus/share_plus.dart';
 
 class AccountPage extends StatefulWidget {
@@ -404,16 +406,42 @@ class _AccountPageState extends State<AccountPage> {
                   title: 'My Statistics',
                 ),
                 ItemCardAccount(
-                  iconname: Icons.person,
-                  ontap: () {},
-                  title: 'About Us',
-                ),
-                ItemCardAccount(
                   iconname: Icons.share,
                   ontap: () {
                     onShare(context);
                   },
                   title: 'Share',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.person,
+                  ontap: () {
+                    nextScreen(
+                        context,
+                        InappOpener(
+                            url:
+                                'https://oneupnoobs.blogspot.com/2024/06/about-us.html',
+                            title: 'About Us'));
+                  },
+                  title: 'About Us',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.privacy_tip,
+                  ontap: () {
+                    nextScreen(
+                        context,
+                        InappOpener(
+                            url:
+                                'https://oneupnoobs.blogspot.com/2024/06/privacy-policy.html',
+                            title: 'Privacy Policy'));
+                  },
+                  title: 'Privacy Policy',
+                ),
+                ItemCardAccount(
+                  iconname: Icons.password,
+                  ontap: () {
+                    nextScreen(context, ForgotPassword());
+                  },
+                  title: 'Change Password',
                 ),
                 ItemCardAccount(
                   iconname: Icons.logout,
@@ -429,7 +457,10 @@ class _AccountPageState extends State<AccountPage> {
                     );
                   },
                   title: 'Logout',
-                )
+                ),
+                SizedBox(
+                  height: height * 0.02,
+                ),
               ],
             )
           ],
@@ -461,5 +492,6 @@ class _AccountPageState extends State<AccountPage> {
   void onShare(BuildContext context) async {
     final String textToShare =
         "Download OneUp Noobs From Google Play Store.  https://play.google.com/  await Share.share(textToShare, subject: 'Sharing via Oneup Noobs";
+    await Share.share(textToShare, subject: 'Sharing via Oneup Noobs');
   }
 }

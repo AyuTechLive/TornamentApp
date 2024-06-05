@@ -41,48 +41,56 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDr_Emu1o9oPZrfUn3ofrTwb3MZ0hpzD68',
-    appId: '1:784730084385:web:3867eb8d6dc64980713f60',
-    messagingSenderId: '784730084385',
-    projectId: 'oneupnoobs-9ee91',
-    authDomain: 'oneupnoobs-9ee91.firebaseapp.com',
-    storageBucket: 'oneupnoobs-9ee91.appspot.com',
-    measurementId: 'G-2F2QT7JEX5',
+    apiKey: 'AIzaSyAwR2aKXV2nKRiVJ8R6jpJMUfssEHMP2bA',
+    appId: '1:523847778061:web:db084b6ae95e87f1fafa44',
+    messagingSenderId: '523847778061',
+    projectId: 'oneupnoobs-59d99',
+    authDomain: 'oneupnoobs-59d99.firebaseapp.com',
+    databaseURL: 'https://oneupnoobs-59d99-default-rtdb.firebaseio.com',
+    storageBucket: 'oneupnoobs-59d99.appspot.com',
+    measurementId: 'G-QCCL14RFGX',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD3fZM3PJ3PYqZEsqbRHK5-6n2Mxp_g5QM',
-    appId: '1:784730084385:android:3dabc1762ab71efc713f60',
-    messagingSenderId: '784730084385',
-    projectId: 'oneupnoobs-9ee91',
-    storageBucket: 'oneupnoobs-9ee91.appspot.com',
+    apiKey: 'AIzaSyCMVhRP6RaF_UANGLjQk4Heypzfp17XVj4',
+    appId: '1:523847778061:android:d1f1ada960338546fafa44',
+    messagingSenderId: '523847778061',
+    projectId: 'oneupnoobs-59d99',
+    databaseURL: 'https://oneupnoobs-59d99-default-rtdb.firebaseio.com',
+    storageBucket: 'oneupnoobs-59d99.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBpgQLaw1lF8QsxY-TTlC3cKjq0MnmmVgI',
-    appId: '1:784730084385:ios:4dbbd322afa3e74e713f60',
-    messagingSenderId: '784730084385',
-    projectId: 'oneupnoobs-9ee91',
-    storageBucket: 'oneupnoobs-9ee91.appspot.com',
+    apiKey: 'AIzaSyCinZqK3Fzrlf_WRpYvoBxZOdkszEbxx_g',
+    appId: '1:523847778061:ios:42ed51741de9629afafa44',
+    messagingSenderId: '523847778061',
+    projectId: 'oneupnoobs-59d99',
+    databaseURL: 'https://oneupnoobs-59d99-default-rtdb.firebaseio.com',
+    storageBucket: 'oneupnoobs-59d99.appspot.com',
+    iosClientId: '523847778061-rj5lo7vg9e1jbl2kclp2epmoil91vvjr.apps.googleusercontent.com',
     iosBundleId: 'com.example.oneupNoobs',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyBpgQLaw1lF8QsxY-TTlC3cKjq0MnmmVgI',
-    appId: '1:784730084385:ios:4dbbd322afa3e74e713f60',
-    messagingSenderId: '784730084385',
-    projectId: 'oneupnoobs-9ee91',
-    storageBucket: 'oneupnoobs-9ee91.appspot.com',
+    apiKey: 'AIzaSyCinZqK3Fzrlf_WRpYvoBxZOdkszEbxx_g',
+    appId: '1:523847778061:ios:42ed51741de9629afafa44',
+    messagingSenderId: '523847778061',
+    projectId: 'oneupnoobs-59d99',
+    databaseURL: 'https://oneupnoobs-59d99-default-rtdb.firebaseio.com',
+    storageBucket: 'oneupnoobs-59d99.appspot.com',
+    iosClientId: '523847778061-rj5lo7vg9e1jbl2kclp2epmoil91vvjr.apps.googleusercontent.com',
     iosBundleId: 'com.example.oneupNoobs',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDr_Emu1o9oPZrfUn3ofrTwb3MZ0hpzD68',
-    appId: '1:784730084385:web:1f4ed2dc80eeae6b713f60',
-    messagingSenderId: '784730084385',
-    projectId: 'oneupnoobs-9ee91',
-    authDomain: 'oneupnoobs-9ee91.firebaseapp.com',
-    storageBucket: 'oneupnoobs-9ee91.appspot.com',
-    measurementId: 'G-LXYD803NP7',
+    apiKey: 'AIzaSyAwR2aKXV2nKRiVJ8R6jpJMUfssEHMP2bA',
+    appId: '1:523847778061:web:d7d56df7c2a65a58fafa44',
+    messagingSenderId: '523847778061',
+    projectId: 'oneupnoobs-59d99',
+    authDomain: 'oneupnoobs-59d99.firebaseapp.com',
+    databaseURL: 'https://oneupnoobs-59d99-default-rtdb.firebaseio.com',
+    storageBucket: 'oneupnoobs-59d99.appspot.com',
+    measurementId: 'G-L8MR5QR6QJ',
   );
+
 }

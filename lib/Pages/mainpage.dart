@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.amber,
                 Icons.monetization_on,
               ),
-              label: 'Earn',
+              label: 'Refer Us',
             ),
             BottomNavigationBarItem(
               icon: Icon(

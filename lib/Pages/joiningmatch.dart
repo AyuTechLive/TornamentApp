@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:oneup_noobs/Pages/Wallet/userauthenticationtype.dart';
 import 'package:oneup_noobs/Pages/homepage.dart';
+import 'package:oneup_noobs/Pages/mainpage.dart';
 import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/utils.dart';
 
@@ -310,7 +311,7 @@ class _JoiningMatchState extends State<JoiningMatch> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomePage(),
+                          builder: (context) => MainPage(),
                         ));
                   });
                   ;

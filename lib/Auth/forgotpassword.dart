@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:oneup_noobs/Auth/login.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/Utils/utils.dart';
 import 'package:oneup_noobs/minorcomponents/roundbutton.dart';
 
@@ -64,17 +65,18 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         Radius.circular(20),
                       ),
                       borderSide:
-                          BorderSide(color: Color(0xFFF17306), width: 3)),
+                          BorderSide(color: AppColors.bluecolor, width: 3)),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide(color: Color(0xFFF17306), width: 3),
+                    borderSide:
+                        BorderSide(color: AppColors.bluecolor, width: 3),
                   ),
                   //helperText: 'Enter your email',
                   prefixIcon: Icon(
                     Icons.alternate_email,
-                    color: Color(0xFFF17306),
+                    color: AppColors.bluecolor,
                   ),
-                  iconColor: Color(0xFFF17306)),
+                  iconColor: AppColors.bluecolor),
             ),
             SizedBox(
               height: height * 0.2,

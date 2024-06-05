@@ -16,6 +16,7 @@ import 'package:oneup_noobs/Pages/mainpage.dart';
 import 'package:oneup_noobs/Pages/tournament_details.dart';
 import 'package:oneup_noobs/Pages/tournament_page.dart';
 import 'package:oneup_noobs/Splashscreen/splashscreen.dart';
+import 'package:oneup_noobs/Utils/colors.dart';
 import 'package:oneup_noobs/firebase_options.dart';
 
 void main() async {
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
           //
           // This works for code too, not just values: Most code changes can be
           // tested with just a hot reload.
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.bluecolor),
           useMaterial3: true,
         ),
         home: SplashScreen());

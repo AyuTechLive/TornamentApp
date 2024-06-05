@@ -1,4 +1,4 @@
-package com.example.oneup_noobs
+package com.oneupnoobs.tournament
 
 import io.flutter.embedding.android.FlutterActivity
 

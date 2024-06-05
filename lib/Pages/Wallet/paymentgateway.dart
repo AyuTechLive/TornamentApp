@@ -33,6 +33,7 @@ class _PaymentgatwayState extends State<Paymentgatway> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     Utils().toastMessage(response.paymentId.toString());
+      _updateWallet();
 
     // searchAndCreateCourse1();
     nextScreen(context, Wallet());
@@ -45,7 +46,7 @@ class _PaymentgatwayState extends State<Paymentgatway> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     Utils().toastMessage('Payment Failed');
-    _updateWallet();
+  
 
     // Navigator.pushReplacement(
     //     context,
